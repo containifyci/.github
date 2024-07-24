@@ -1,0 +1,9 @@
+#https://ngrok.com/docs/secure-tunnels/ngrok-agent/reference/config/
+version: "2"
+log: /var/log/ngrok.log
+update_check: false
+
+tunnels:
+  ssh:
+    proto: tcp
+    addr: 22

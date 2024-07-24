@@ -1,0 +1,121 @@
+name: Starting a SSH Server
+description: This can be used to ssh into a Github Action Workflow for debugging purposes.
+
+inputs:
+  github_user:
+    description: The name of the github user to use the public keys for authentication.
+    required: true
+  ngrok_auth_token:
+    description: The ngrok auth token to setup the ngrok proxy.
+    required: true
+  timeout:
+    description: Define the timeout to wait for an ssh access to happen. Default is 10 minutes.
+    required: false
+    default: 1m
+outputs:
+  tunnel-url:
+    description: "Deployed Ngrok tunnel URL"
+    value: ${{ steps.print-tunnel-url.outputs.tunnel-url }}
+runs:
+  using: "composite"
+  steps:
+    - name: Install SSHD
+      shell: bash
+      id: download
+      run: |
+        echo Installing/re-configuring sshd and tmux
+
+        sudo systemctl status|grep ssh
+
+        sudo apt update -qqqy && \
+        sudo apt install -qqqy openssh-server tmux && \
+        sudo systemctl enable ssh
+
+        if [ -z "$(find /etc/ssh/ -name "ssh_host_*"|xargs echo -n)" ]; then DEBIAN_FRONTEND=noninteractive sudo -E dpkg-reconfigure openssh-server ;  fi
+    - name: Install actor's keys
+      shell: bash
+      id: keys
+      run: |
+        mkdir -p ~/.ssh
+        curl -s "https://api.github.com/users/${{ inputs.github_user }}/keys" | jq -r '.[].key' > ~/.ssh/authorized_keys
+        chmod 700 ~/.ssh
+        chmod 600 ~/.ssh/authorized_keys
+        cat ~/.ssh/authorized_keys
+    - name: Disable password auth
+      shell: bash
+      id: disablepwd
+      run: |
+        echo "ChallengeResponseAuthentication no" | sudo tee -a /etc/ssh/sshd_config
+        echo "PermitRootLogin no" | sudo tee -a /etc/ssh/sshd_config
+        echo "AuthenticationMethods publickey" | sudo tee -a /etc/ssh/sshd_config
+        echo "StrictModes yes" | sudo tee -a /etc/ssh/sshd_config
+        echo "MaxAuthTries 3" | sudo tee -a /etc/ssh/sshd_config
+        echo "MaxSessions 2" | sudo tee -a /etc/ssh/sshd_config
+
+        sudo sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication no/g" /etc/ssh/sshd_config
+
+        sudo systemctl daemon-reload
+
+        sudo systemctl status|grep ssh
+        sudo systemctl restart ssh --now
+    - name: Install ngrok
+      shell: bash
+      run: |
+        curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+        echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+        sudo apt update -y
+        sudo apt install -y ngrok
+    - shell: bash
+      run: |
+        ngrok authtoken ${{ inputs.ngrok_auth_token }} --config ${{ github.action_path }}/ngrok.yml
+        sudo ngrok service install --config ${{ github.action_path }}/ngrok.yml
+        sudo ngrok service start
+        sudo systemctl status ngrok
+    - run: sleep 5 && cat /var/log/ngrok.log
+      shell: bash
+    - id: print-tunnel-url
+      run: echo "tunnel-url=$( curl http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url" | sed -E 's/^\s*.*:\/\///g' | sed -r 's/^(\s*.*):(\d*)/\1 -p \2/g')" >> "$GITHUB_OUTPUT"
+      shell: bash
+    - shell: bash
+      run: |
+        echo ssh -v runner@${{ steps.print-tunnel-url.outputs.tunnel-url }}
+        echo ssh -v ${{ steps.print-tunnel-url.outputs.tunnel-url }} > "$GITHUB_STEP_SUMMARY"
+    - name: Block until tmux session is closed
+      shell: bash
+      id: tmux-wait-until-closed
+      continue-on-error: true
+      run: |
+        echo "#!/bin/bash" | sudo tee -a /usr/local/bin/unblock
+        echo "tmux kill-session" | sudo tee -a /usr/local/bin/unblock
+
+        echo "#!/bin/bash" | sudo tee -a /usr/local/bin/block
+        echo "tmux lock" | sudo tee -a /usr/local/bin/block
+
+        sudo chmod +x /usr/local/bin/unblock
+        sudo chmod +x /usr/local/bin/block
+
+        cat << EOF | sudo tee /etc/motd
+
+        .----------------.  .----------------.  .----------------.  .-----------------. .----------------.
+        | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+        | |  _________   | || |   _____      | || |     _____    | || | ____  _____  | || |  ___  ____   | |
+        | | |_   ___  |  | || |  |_   _|     | || |    |_   _|   | || ||_   \|_   _| | || | |_  ||_  _|  | |
+        | |   | |_  \_|  | || |    | |       | || |      | |     | || |  |   \ | |   | || |   | |_/ /    | |
+        | |   |  _|      | || |    | |   _   | || |      | |     | || |  | |\ \| |   | || |   |  __'.    | |
+        | |  _| |_       | || |   _| |__/ |  | || |     _| |_    | || | _| |_\   |_  | || |  _| |  \ \_  | |
+        | | |_____|      | || |  |________|  | || |    |_____|   | || ||_____|\____| | || | |____||____| | |
+        | |              | || |              | || |              | || |              | || |              | |
+        | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+          '----------------'  '----------------'  '----------------'  '----------------'  '----------------'
+
+
+        A tmux session is running in the background, you can attach with
+        "tmux attach". To keep the session running, run "block".
+        To stop the session, run "unblock" or "tmux kill-session".
+
+        EOF
+
+        tmux new-session -d -s debug
+
+        # Blocks until timeout is reached or someone run block command
+        (timeout ${{ inputs.timeout }} tmux wait-for channel) || echo keep session alive && tmux wait-for -L debug
