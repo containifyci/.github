@@ -1,0 +1,29 @@
+{
+  "name": "semver-release",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "npx ncc run ./src/index.ts",
+    "build": "npx ncc build ./src/index.ts"
+  },
+  "dependencies": {
+    "actions-toolkit": "^6.0.1",
+    "semver": "^7.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/js-yaml": "^4.0.9",
+    "@types/semver": "^7.5.8",
+    "@vercel/ncc": "^0.38.1",
+    "husky": "^9.1.1",
+    "nock": "^13.5.4",
+    "prettier": "^3.3.3",
+    "pretty-quick": "^4.0.0",
+    "typescript": "^5.5.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}

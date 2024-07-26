@@ -1,0 +1,13 @@
+name: Semver release
+description: Create, update major and minor release tags
+
+inputs:
+  tag_name:
+    description: The tag to update. If the workflow event is `release`, it will use the `tag_name` from the event payload.
+  prefix:
+    description: The prefix to use for the tag. If the workflow event is `release`, it will use the `repository.name` from the event payload.
+  semver_prefix:
+    description: The prefix to use for the semver tag. If the workflow event is `release`, it will use the `repository.name` from the event payload.
+runs:
+  using: node20
+  main: dist/index.js
