@@ -34,7 +34,24 @@ on:
         required: false
         default: "engine-ci"
         type: string
+      docker_registry:
+        description: "The docker registry to use"
+        required: true
+        default: ""
+        type: string
+      docker_username:
+        description: "The docker username to use"
+        required: true
+        default: ""
+        type: string
+      docker_password_decode:
+        description: "Should the docker password to be decoded"
+        required: true
+        default: false
+        type: boolean
     secrets:
+      DOCKER_PASSWORD:
+        required: true
       CONTAINIFYCI_CI_SSH_PRIVATE_KEY:
         required: false
       SONAR_TOKEN:
@@ -44,6 +61,7 @@ env:
   CONTAINER_RUNTIME: ${{ inputs.runtime }}
   ENGINE_CACHE: /home/runner/go/pkg/mod
   ENGINE_BINARY: ${{ inputs.engine_binary }}
+  CONTAINIFYCI_CACHE: /home/runner/go/pkg/mod
   CONTAINIFYCI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CONTAINIFYCI_FILE: ${{ inputs.containifyci_file }}
   GOMODCACHE: /home/runner/go/pkg/mod
@@ -94,6 +112,27 @@ jobs:
           go-version: ${{ env.go_version }}
           cache: false
 
+      - name: Decode Docker password
+        id: decode_docker_password
+        run: |
+          if [ "${{ inputs.docker_password_decode }}" == "true" ]; then
+            docker_password=$(echo "$DOCKER_PASSWORD" | base64 -di | base64 -di)
+          else
+            docker_password=$(echo "$DOCKER_PASSWORD")
+          fi
+          echo "::add-mask::$docker_password"
+          echo "docker_password=$docker_password" >> $GITHUB_OUTPUT
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to GAR
+        uses: docker/login-action@v3
+        if: inputs.docker_registry != ''
+        with:
+          registry: ${{ inputs.docker_registry }}
+          username: ${{ inputs.docker_username }}
+          password: ${{ steps.decode_docker_password.outputs.docker_password }}
+
       - name: Cache Go Mod
         uses: actions/cache@v4
         if: always()
@@ -131,3 +170,5 @@ jobs:
       - name: Run engine
         run: |
           ${{ env.ENGINE_BINARY }} engine
+        env:
+          DOCKER_TOKEN: ${{ steps.decode_docker_password.outputs.docker_password }}
