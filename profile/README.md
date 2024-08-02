@@ -49,6 +49,6 @@ For more details, see the full license [here](LICENSE).
 
 Whether you're a seasoned developer or just starting out, ContainifyCI offers a great opportunity to contribute to the open-source community and help shape the future of CI/CD tooling.
 
-- **GitHub Organization**: [github.com/ContainifyCI](https://github.com/ContainifyCI)
+- **GitHub Organization**: [github.com/containifyci](https://github.com/containifyci)
 
 Let's make CI/CD better, together.
