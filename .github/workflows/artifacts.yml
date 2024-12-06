@@ -28,6 +28,9 @@ concurrency:
   group: ${{ inputs.concurrency_group }}
   cancel-in-progress: ${{ inputs.concurrency_cancel }}
 
+permissions:
+  contents: write # for checkout
+
 env:
   GOMODCACHE: /home/runner/go/pkg/mod
   GOCACHE: /home/runner/go/pkg/mod/build-cache
