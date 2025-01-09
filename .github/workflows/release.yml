@@ -23,6 +23,11 @@ on:
         description: "Install the engine binary"
         required: false
         type: boolean
+      noNewCommitBehavior:
+        default: "silent"
+        description: "The no new commit behavior to use"
+        required: false
+        type: string
       runs_on:
         default: "ubuntu-24.04"
         description: "The runner vm image to use for example ubuntu-24.04"
@@ -64,6 +69,7 @@ jobs:
           token: ${{ secrets.RELEASE_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           branch: main
           noVersionBumpBehavior: silent
+          noNewCommitBehavior: ${{ inputs.noNewCommitBehavior }}
           skipInvalidTags: true
           maxTagsToFetch: 50
       - name: Create Release
