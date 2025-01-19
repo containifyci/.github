@@ -3,6 +3,11 @@ name: Reusable ContainifyCI workflow
 on:
   workflow_call:
     inputs:
+      dockerhub_user:
+        description: "The Docker Hub username"
+        required: false
+        default: "containifyci"
+        type: string
       version:
         description: "The engine version to use"
         required: false
@@ -29,29 +34,14 @@ on:
         required: false
         default: "containifyci/engine-ci"
         type: string
-      engine_binary:
+      engine_command:
         description: "The engine command to run"
         required: false
         default: "engine-ci"
         type: string
-      docker_registry:
-        description: "The docker registry to use"
-        required: true
-        default: ""
-        type: string
-      docker_username:
-        description: "The docker username to use"
-        required: true
-        default: ""
-        type: string
-      docker_password_decode:
-        description: "Should the docker password to be decoded"
-        required: true
-        default: false
-        type: boolean
     secrets:
-      DOCKER_PASSWORD:
-        required: true
+      CONTAINIFYCI_DOCKER_TOKEN:
+        required: false
       CONTAINIFYCI_CI_SSH_PRIVATE_KEY:
         required: false
       SONAR_TOKEN:
@@ -59,8 +49,10 @@ on:
 
 env:
   CONTAINER_RUNTIME: ${{ inputs.runtime }}
+  DOCKER_USER: ${{ inputs.dockerhub_user }}
+  DOCKER_TOKEN: ${{ secrets.CONTAINIFYCI_DOCKER_TOKEN }}
   ENGINE_CACHE: /home/runner/go/pkg/mod
-  ENGINE_BINARY: ${{ inputs.engine_binary }}
+  ENGINE_COMMAND: ${{ inputs.engine_command}}
   CONTAINIFYCI_CACHE: /home/runner/go/pkg/mod
   CONTAINIFYCI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CONTAINIFYCI_FILE: ${{ inputs.containifyci_file }}
@@ -78,7 +70,7 @@ jobs:
       pull-requests: write # for updating pr
 
     env:
-      go_version: 1.22.5
+      go_version: 1.23.5
 
     steps:
       - name: Checkout
@@ -106,32 +98,20 @@ jobs:
           path: ~/image-cache
           key: image-cache-${{ runner.os }}
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        if: env.CONTAINIFYCI_DOCKER_TOKEN != null
+        env:
+          CONTAINIFYCI_DOCKER_TOKEN: ${{ secrets.CONTAINIFYCI_DOCKER_TOKEN }}
+        with:
+          username: ${{ inputs.dockerhub_user }}
+          password: ${{ secrets.CONTAINIFYCI_DOCKER_TOKEN }}
+
       - name: Install go ${{ env.go_version }}
         uses: actions/setup-go@v5
         with:
           go-version: ${{ env.go_version }}
           cache: false
-
-      - name: Decode Docker password
-        id: decode_docker_password
-        run: |
-          if [ "${{ inputs.docker_password_decode }}" == "true" ]; then
-            docker_password=$(echo "$DOCKER_PASSWORD" | base64 -di | base64 -di)
-          else
-            docker_password=$(echo "$DOCKER_PASSWORD")
-          fi
-          echo "::add-mask::$docker_password"
-          echo "docker_password=$docker_password" >> $GITHUB_OUTPUT
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GAR
-        uses: docker/login-action@v3
-        if: inputs.docker_registry != ''
-        with:
-          registry: ${{ inputs.docker_registry }}
-          username: ${{ inputs.docker_username }}
-          password: ${{ steps.decode_docker_password.outputs.docker_password }}
 
       - name: Cache Go Mod
         uses: actions/cache@v4
@@ -150,25 +130,23 @@ jobs:
           # version: ${{ inputs.version }}
           cache: true
           extension-matching: disable
-          rename-to: ${{ env.ENGINE_BINARY }}
+          rename-to: ${{ env.ENGINE_COMMAND }}
           chmod: 0755
 
       - name: Prepare Github Action
         run: |
-          ${{ env.ENGINE_BINARY }} github_actions
+          ${{ env.ENGINE_COMMAND }} github_actions
 
       - if: steps.image-cache.outputs.cache-hit != 'true'
         continue-on-error: true
         run: |
-          ${{ env.ENGINE_BINARY }} cache save
+          ${{ env.ENGINE_COMMAND }} cache save
 
       - if: steps.image-cache.outputs.cache-hit == 'true'
         continue-on-error: true
         run: |
-          ${{ env.ENGINE_BINARY }} cache load
+          ${{ env.ENGINE_COMMAND }} cache load
 
       - name: Run engine
         run: |
-          ${{ env.ENGINE_BINARY }} engine
-        env:
-          DOCKER_TOKEN: ${{ steps.decode_docker_password.outputs.docker_password }}
+          ${{ env.ENGINE_COMMAND }} engine
