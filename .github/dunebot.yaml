@@ -1,0 +1,16 @@
+version: 1.0.0
+
+approve:
+  approver: fr12k
+  include:
+    branches:
+      dependabot_terraform:
+        prefix: "dependabot/go_modules"
+
+merge:
+  include:
+    branches:
+      dependabot_terraform:
+        age: 2 days
+        prefix: "dependabot/go_modules"
+  method: squash
