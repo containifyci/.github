@@ -1,0 +1,45 @@
+name: golangci-lint
+description: Run golangci-lint in your Go project.
+
+inputs:
+  args:
+    description: "The arguments to pass to golangci-lint"
+    default: ""
+    required: false
+  custom-gcl-binary:
+    description: "The custom golangci-lint binary to use (default: ./build/custom-gcl)"
+    default: ./build/custom-gcl
+    required: false
+  skip-cache:
+    description: "Define if cache should be skipped (default: true)"
+    default: "true"
+    required: false
+  version:
+    description: The golangci-lint version to use
+    default: "latest"
+    required: false
+  working-directory:
+    description: The working directory to run golangci-lint in
+    default: "."
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run golangci-lint-action
+      if: ${{ hashFiles(format('{0}/{1}',inputs.working-directory,'.custom-gcl.yml')) == '' }}
+      uses: golangci/golangci-lint-action@v6
+      with:
+        skip-cache: ${{ inputs.skip-cache }}
+        version: ${{ inputs.version }}
+        working-directory: ${{ inputs.working-directory }}
+        args: ${{ inputs.args }}
+
+    - name: Run custom-gcl linter
+      if: ${{ hashFiles(format('{0}/{1}',inputs.working-directory,'.custom-gcl.yml')) != '' }}
+      run: |
+        go install github.com/golangci/golangci-lint/cmd/golangci-lint@${{ inputs.version }}
+        golangci-lint custom
+        ${{ inputs.custom-gcl-binary }} run ./... ${{ inputs.args }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
