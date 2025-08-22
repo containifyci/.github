@@ -4,12 +4,16 @@ approve:
   approver: fr12k
   include:
     branches:
+      dependabot/github_actions:
+        prefix: "dependabot/github_actions"
       dependabot_terraform:
         prefix: "dependabot/go_modules"
 
 merge:
   include:
     branches:
+      dependabot/github_actions:
+        prefix: "dependabot/github_actions"
       dependabot_terraform:
         age: 2 days
         prefix: "dependabot/go_modules"
