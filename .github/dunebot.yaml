@@ -15,6 +15,6 @@ merge:
       dependabot/github_actions:
         prefix: "dependabot/github_actions"
       dependabot_terraform:
-        age: 2 days
+        age: 1 days
         prefix: "dependabot/go_modules"
   method: squash
