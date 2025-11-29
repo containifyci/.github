@@ -60,7 +60,7 @@ jobs:
     needs: build
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Get Next Version
         id: semver
         uses: ietf-tools/semver-action@v1
