@@ -107,7 +107,7 @@ jobs:
           password: ${{ secrets.CONTAINIFYCI_DOCKER_TOKEN }}
 
       - name: Install go ${{ env.go_version }}
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ env.go_version }}
           cache: false
