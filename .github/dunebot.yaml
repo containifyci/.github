@@ -6,6 +6,8 @@ approve:
     branches:
       dependabot/github_actions:
         prefix: "dependabot/github_actions"
+      dependabot_npm_and_yarn:
+        prefix: "dependabot/npm_and_yarn"
       dependabot_terraform:
         prefix: "dependabot/go_modules"
 
@@ -14,6 +16,9 @@ merge:
     branches:
       dependabot/github_actions:
         prefix: "dependabot/github_actions"
+      dependabot_npm_and_yarn:
+        age: 1 days
+        prefix: "dependabot/npm_and_yarn"
       dependabot_terraform:
         age: 1 days
         prefix: "dependabot/go_modules"
