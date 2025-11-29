@@ -80,7 +80,7 @@ jobs:
 
       - name: Setup SSH agent for retrieving (private) Github dependencies
         if: ${{ env.CONTAINIFYCI_CI_SSH_PRIVATE_KEY != '' }}
-        uses: webfactory/ssh-agent@v0.9.0
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.CONTAINIFYCI_CI_SSH_PRIVATE_KEY }}
         env:
@@ -107,7 +107,7 @@ jobs:
           password: ${{ secrets.CONTAINIFYCI_DOCKER_TOKEN }}
 
       - name: Install go ${{ env.go_version }}
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ env.go_version }}
           cache: false

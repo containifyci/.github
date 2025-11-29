@@ -28,7 +28,7 @@ runs:
   steps:
     - name: Run golangci-lint-action
       if: ${{ hashFiles(format('{0}/{1}',inputs.working-directory,'.custom-gcl.yml')) == '' }}
-      uses: golangci/golangci-lint-action@v6
+      uses: golangci/golangci-lint-action@v9
       with:
         skip-cache: ${{ inputs.skip-cache }}
         version: ${{ inputs.version }}
