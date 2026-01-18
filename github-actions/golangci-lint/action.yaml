@@ -38,7 +38,7 @@ runs:
     - name: Run custom-gcl linter
       if: ${{ hashFiles(format('{0}/{1}',inputs.working-directory,'.custom-gcl.yml')) != '' }}
       run: |
-        go install github.com/golangci/golangci-lint/cmd/golangci-lint@${{ inputs.version }}
+        go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@${{ inputs.version }}
         golangci-lint custom
         ${{ inputs.custom-gcl-binary }} run ./... ${{ inputs.args }}
       shell: bash
