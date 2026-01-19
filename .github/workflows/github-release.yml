@@ -1,0 +1,60 @@
+name: Release Go Sub Module
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/dunebot.yaml'
+      - '.github/dependabot.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: write # for checkout
+
+jobs:
+  sub-module-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+      - name: Get Next Version
+        id: semver
+        if: inputs.tag == ''
+        uses: ietf-tools/semver-action@v1
+        with:
+          token: ${{ github.token }}
+          branch: main
+          noVersionBumpBehavior: patch
+          skipInvalidTags: true
+          maxTagsToFetch: 50
+          patchAll: true
+      - name: Create Tag
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const {TAG} = process.env
+            github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `refs/tags/${TAG}`,
+                sha: context.sha
+            })
+        env:
+          TAG: ${{ inputs.tag == '' && steps.semver.outputs.next || inputs.tag }}
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        if: steps.semver.outputs.next
+        with:
+          allowUpdates: true
+          generateReleaseNotes: true
+          makeLatest: true
+          tag: ${{ steps.semver.outputs.next }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update major and minor release tags
+        uses: containifyci/.github/github-actions/update-semver@main
+        with:
+          tag_name: ${{ inputs.tag == '' && steps.semver.outputs.next || inputs.tag }}
+          semver_prefix: v
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
