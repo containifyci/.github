@@ -1,54 +1,131 @@
 # ContainifyCI
 
-Welcome to **ContainifyCI**! 🚀
+**One binary. Any language. Consistent builds everywhere.**
 
-ContainifyCI is an open-source organization dedicated to simplifying the process of running containerized CI/CD pipelines. Our mission is to provide developers and teams with powerful, flexible, and easy-to-use tools to streamline their continuous integration and continuous deployment workflows.
+ContainifyCI is an open-source ecosystem for running containerized CI/CD pipelines. We replace fragile YAML configurations and environment-specific scripts with a single Go binary that builds your projects the same way — locally, in CI, and across teams.
 
-## 🎯 Vision
+---
 
-In today's fast-paced development environments, continuous integration and continuous deployment (CI/CD) have become essential practices. However, managing and running CI/CD pipelines can be complex, especially when dealing with various environments, dependencies, and tools.
+## The Problem
 
-**ContainifyCI** aims to tackle this challenge by providing a suite of open-source tools and resources that make it easier to:
+CI/CD pipelines are hard to maintain. Different environments drift apart, tools get out of sync, and "works on my machine" becomes "breaks in CI." You end up debugging your pipeline instead of shipping code.
 
-- **Containerize CI/CD Pipelines**: Leverage the power of containers to create isolated, consistent, and reproducible CI/CD environments.
-- **Simplify Pipeline Management**: Reduce the complexity of managing and orchestrating CI/CD pipelines across different stages and environments.
-- **Enhance Flexibility**: Offer customizable solutions that can be tailored to fit the specific needs of individual projects and teams.
+## The Solution
 
-## 🛠️ Projects
+**engine-ci** compiles your entire build pipeline into a single binary. It runs inside containers, uses the exact same tool versions everywhere, and works identically on your laptop and in GitHub Actions.
 
-As we are still in the **Proof of Concept (PoC)** phase, the projects under the ContainifyCI umbrella are experimental and evolving. Here are some of the key initiatives we're currently exploring:
+```bash
+# Install
+go install github.com/containifyci/engine-ci@latest
 
-- **Pipeline Runner**: A lightweight tool written in **Golang** for running CI/CD pipelines inside containers. Golang provides several advantages, including:
-  - **Ease of Writing Tests**: Golang's robust testing framework makes it straightforward to write and maintain tests for your CI/CD pipelines.
-  - **Full Dependency Management**: Golang's module system ensures that all dependencies are well-managed and versioned, leading to more reliable builds.
-  - **Single Binary Execution**: The pipeline tool compiles down to a single binary, making it easy to run the pipelines consistently across different environments (local, CI/CD servers, etc.) without needing additional dependencies or runtimes.
+# Initialize your project
+engine-ci init
 
-- **Container Orchestration**: A set of scripts and tools for orchestrating the execution of containerized pipelines across different environments, ensuring scalability and reliability.
-- **Plugin System**: A modular plugin system that allows users to extend the functionality of their pipelines with custom tasks, integrations, and tools. (Still in the early stages of development)
+# Build — locally or in CI, same result
+engine-ci run
+```
 
-Stay tuned as we continue to refine and expand our offerings!
+![Example Build](https://raw.githubusercontent.com/containifyci/engine-ci/main/docs/local-build.gif)
 
-## 🌐 Community and Contributions
+---
 
-ContainifyCI is open-source, and we welcome contributions from developers, DevOps engineers, and anyone interested in improving CI/CD processes. Whether you're looking to report bugs, suggest features, or contribute code, your input is invaluable.
+## Core Projects
 
-### How to Contribute
+### [engine-ci](https://github.com/containifyci/engine-ci) — The Build Engine
 
-1. **Fork the Repository**: Start by forking the project repository you're interested in.
-2. **Create a Feature Branch**: Work on your changes in a dedicated branch.
-3. **Submit a Pull Request**: Once your changes are ready, submit a pull request for review.
-4. **Join the Discussion**: Participate in discussions by opening issues, commenting on pull requests, and engaging with the community.
+The heart of ContainifyCI. A containerized CI/CD pipeline engine written in Go that supports both Docker and Podman.
 
-## 📜 License
+- **Declarative builds** — Define your pipeline in Go, not YAML
+- **Reproducible** — Containerized execution ensures identical builds everywhere
+- **Multi-language** — Go, Java, Python, and more through language extensions
+- **Concurrent** — Run build steps in parallel for faster feedback
+- **Built-in tooling** — Image scanning (Trivy), release automation (GoReleaser), and more
 
-ContainifyCI projects are released under the **Apache License 2.0**. This license allows you to freely use, modify, and distribute the code, while also providing protection for contributors and users.
+### [engine-java](https://github.com/containifyci/engine-java) — Java Extension
 
-For more details, see the full license [here](LICENSE).
+Adds Maven-based build and packaging support to engine-ci. Use it as a reference for extending engine-ci to any language.
 
-## 🤝 Join Us
+### [engine-python](https://github.com/containifyci/engine-python) — Python Extension
 
-Whether you're a seasoned developer or just starting out, ContainifyCI offers a great opportunity to contribute to the open-source community and help shape the future of CI/CD tooling.
+Build Python projects (Flask, FastAPI, etc.) with engine-ci. A minimal example to get started quickly.
 
-- **GitHub Organization**: [github.com/containifyci](https://github.com/containifyci)
+---
+
+## DevOps Tooling
+
+### [dunebot](https://github.com/containifyci/dunebot) — PR Automation
+
+A GitHub App that automatically reviews and merges pull requests. Built for Dependabot PRs — keep dependencies up to date without manual intervention.
+
+### [feller](https://github.com/containifyci/feller) — Secret Management for GitHub Actions
+
+A lightweight drop-in for [Teller](https://github.com/tellerops/teller) optimized for GitHub Actions. Supports Google Secret Manager, dotenv providers, and multiple export formats (JSON, YAML, ENV).
+
+### [secret-operator](https://github.com/containifyci/secret-operator) — One-Time Secret Retrieval
+
+Token-based authentication service for securely fetching secrets from GCP Secret Manager during cloud-init. Tokens are time-bound and single-use.
+
+### [go-self-update](https://github.com/containifyci/go-self-update) — Binary Auto-Updates
+
+A Go library for adding self-update capabilities to CLI tools. Checks GitHub releases for new versions, downloads the right binary for your OS/arch, and replaces the running executable.
+
+### [dependabot-templater](https://github.com/containifyci/dependabot-templater) — Dependabot Config Generator
+
+Automatically generates `dependabot.yml` for multi-folder Terraform projects — solving the [missing nested code support](https://github.com/dependabot/dependabot-core/issues/649).
+
+### [oauth2-storage](https://github.com/containifyci/oauth2-storage) — GitHub Token Storage
+
+OAuth service for securely storing and managing GitHub JWT tokens.
+
+---
+
+## Quick Start
+
+**1. Install engine-ci**
+```bash
+go install github.com/containifyci/engine-ci@latest
+```
+
+**2. Initialize your project**
+```bash
+engine-ci init
+```
+
+This creates a `.containifyci/containifyci.go` file — your build definition written in Go.
+
+**3. Run your build**
+```bash
+engine-ci run
+```
+
+That's it. The same command works on macOS, Ubuntu, in GitHub Actions, or anywhere Docker/Podman runs.
+
+---
+
+## Why Go?
+
+We chose Go for pipeline definitions because:
+
+- **Testable** — Write unit tests for your build logic using Go's standard testing framework
+- **Type-safe** — Catch configuration errors at compile time, not at runtime
+- **Single binary** — No runtime dependencies, no version managers, no "install these 5 tools first"
+- **Extensible** — Import packages, write functions, use the full power of a real programming language
+
+---
+
+## Contributing
+
+ContainifyCI is open-source under the **Apache License 2.0**, and we welcome contributions of all kinds.
+
+1. **Fork** the repository you're interested in
+2. **Create** a feature branch
+3. **Submit** a pull request
+4. **Discuss** — open issues, comment on PRs, share ideas
+
+Whether it's a bug fix, a new language extension, or documentation improvements — every contribution matters.
+
+---
+
+**GitHub Organization**: [github.com/containifyci](https://github.com/containifyci)
 
 Let's make CI/CD better, together.
