@@ -1,0 +1,62 @@
+/* Prism.js Dark Theme — ContainifyCI */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #e2e8f0;
+  background: none;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 4;
+  hyphens: none;
+}
+
+pre[class*="language-"] {
+  background: transparent;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #64748b;
+}
+
+.token.punctuation { color: #94a3b8; }
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted { color: #f87171; }
+
+.token.boolean,
+.token.number { color: #f59e0b; }
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted { color: #10b981; }
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string { color: #06b6d4; }
+
+.token.atrule,
+.token.attr-value,
+.token.keyword { color: #8b5cf6; }
+
+.token.function,
+.token.class-name { color: #06b6d4; }
+
+.token.regex,
+.token.important,
+.token.variable { color: #f59e0b; }
+
+.token.important,
+.token.bold { font-weight: bold; }
+.token.italic { font-style: italic; }

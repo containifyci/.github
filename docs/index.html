@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContainifyCI — Containerized CI/CD Pipelines Defined in Go</title>
+  <meta name="description" content="Stop debugging your pipeline. Start shipping your code. Containerized CI/CD pipelines defined in Go — identical builds on your laptop and in CI.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ContainifyCI — Containerized CI/CD Pipelines Defined in Go">
+  <meta property="og:description" content="Stop debugging your pipeline. Start shipping your code. Define your build pipeline in Go, run it in containers, get identical results everywhere.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.containifyci.io/">
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Prism.js (Go + YAML + Bash) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/prism-custom.css">
+</head>
+<body>
+
+  <!-- ========== 1. Fixed Nav ========== -->
+  <nav class="nav">
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+          <rect x="8" y="20" width="48" height="32" rx="4" fill="#06b6d4"/>
+          <rect x="14" y="26" width="10" height="8" rx="1.5" fill="#0a0e17"/>
+          <rect x="27" y="26" width="10" height="8" rx="1.5" fill="#0a0e17"/>
+          <rect x="40" y="26" width="10" height="8" rx="1.5" fill="#0a0e17"/>
+          <rect x="14" y="38" width="10" height="8" rx="1.5" fill="#0a0e17"/>
+          <rect x="27" y="38" width="10" height="8" rx="1.5" fill="#0a0e17"/>
+          <rect x="40" y="38" width="10" height="8" rx="1.5" fill="#0a0e17"/>
+          <path d="M28 12 L32 8 L36 12" stroke="#06b6d4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <line x1="32" y1="8" x2="32" y2="20" stroke="#06b6d4" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        ContainifyCI
+      </a>
+
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#ecosystem">Ecosystem</a>
+        <a href="#under-the-hood">Deep Dive</a>
+      </div>
+
+      <a href="https://github.com/containifyci/engine-ci" class="btn btn-primary nav-cta" target="_blank" rel="noopener">
+        Get Started
+      </a>
+
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <a href="#problem">Problem</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#benefits">Benefits</a>
+    <a href="#get-started">Get Started</a>
+    <a href="#ecosystem">Ecosystem</a>
+    <a href="#under-the-hood">Deep Dive</a>
+    <a href="#contributing">Contributing</a>
+    <a href="https://github.com/containifyci/engine-ci" class="btn btn-primary" target="_blank" rel="noopener">GitHub Repo</a>
+  </div>
+
+  <!-- ========== 2. Hero ========== -->
+  <section class="hero" id="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-badges">
+        <span class="badge">Open Source</span>
+        <span class="badge">Apache 2.0</span>
+        <span class="badge">Go 1.25+</span>
+      </div>
+
+      <h1>
+        Stop debugging your pipeline.<br>
+        <span class="gradient-text">Start shipping your code.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Containerized CI/CD pipelines defined in Go — identical builds on your laptop and in CI.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="https://github.com/containifyci/engine-ci" class="btn btn-primary" target="_blank" rel="noopener">
+          Get Started
+        </a>
+        <a href="#comparison" class="btn btn-secondary">
+          See the Difference
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3. Problem ========== -->
+  <section class="section problem" id="problem">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">The Problem</span>
+        <h2 class="section-title">Your builds should just work</h2>
+
+        <div class="problem-text">
+          <p>Every team hits the same wall. The build passes on your laptop but breaks in CI. A new developer joins and loses a day setting up their environment. A silent version mismatch ships a broken artifact to production.</p>
+          <p><strong>You end up debugging your pipeline instead of building your product.</strong></p>
+          <p>ContainifyCI eliminates this entire class of problems. Define your pipeline in Go, run it in containers, and get identical results everywhere — your machine, your teammate's machine, and CI.</p>
+        </div>
+
+        <div class="problem-code glass">
+          <code>$ engine-ci run</code>
+        </div>
+        <p class="problem-tagline">One command. No YAML. No drift. No surprises.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 4. Comparison ========== -->
+  <section class="section" id="comparison">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Compare</span>
+        <h2 class="section-title">The old way vs. the ContainifyCI way</h2>
+
+        <div class="comparison-grid">
+          <div class="comparison-card glass old">
+            <h3><span class="icon">&#x2717;</span> Without ContainifyCI</h3>
+            <ul>
+              <li><span class="icon">&#x2717;</span> Hundreds of lines of YAML nobody wants to touch</li>
+              <li><span class="icon">&#x2717;</span> "Works on my machine" but fails in CI</li>
+              <li><span class="icon">&#x2717;</span> New developers spend hours setting up tooling</li>
+              <li><span class="icon">&#x2717;</span> Different tool versions across environments</li>
+              <li><span class="icon">&#x2717;</span> Pipeline logic scattered across shell scripts</li>
+              <li><span class="icon">&#x2717;</span> Debugging means push-and-pray</li>
+            </ul>
+          </div>
+
+          <div class="comparison-card glass new">
+            <h3><span class="icon">&#x2713;</span> With ContainifyCI</h3>
+            <ul>
+              <li><span class="icon">&#x2713;</span> Pipeline defined in <strong>real, testable code</strong></li>
+              <li><span class="icon">&#x2713;</span> <strong>Identical builds</strong> on every machine, every time</li>
+              <li><span class="icon">&#x2713;</span> New developers run <strong>one command</strong> and they're ready</li>
+              <li><span class="icon">&#x2713;</span> Tool versions <strong>pinned in containers</strong> automatically</li>
+              <li><span class="icon">&#x2713;</span> All build logic in <strong>one place</strong>, version-controlled</li>
+              <li><span class="icon">&#x2713;</span> <strong>Debug locally</strong> before you push</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 5. How It Works ========== -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">How It Works</span>
+        <h2 class="section-title">Three steps to better builds</h2>
+
+        <div class="steps-grid">
+          <div class="step-card glass define">
+            <div class="step-number">Step 1</div>
+            <div class="step-icon">&#x270D;&#xFE0F;</div>
+            <h3>Define</h3>
+            <p>Write your build pipeline in Go — a real language with types, tests, and your IDE's full support. No more guessing if your YAML is valid.</p>
+          </div>
+
+          <div class="steps-arrow">&#x2192;</div>
+
+          <div class="step-card glass containerize">
+            <div class="step-number">Step 2</div>
+            <div class="step-icon">&#x1F4E6;</div>
+            <h3>Containerize</h3>
+            <p>Every step runs inside a container with pinned tool versions. What runs on your laptop is exactly what runs in CI.</p>
+          </div>
+
+          <div class="steps-arrow">&#x2192;</div>
+
+          <div class="step-card glass ship">
+            <div class="step-number">Step 3</div>
+            <div class="step-icon">&#x1F680;</div>
+            <h3>Ship</h3>
+            <p>One binary, zero dependencies. Works anywhere Docker or Podman runs — macOS, Linux, GitHub Actions, or your own infrastructure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 6. Benefits ========== -->
+  <section class="section benefits" id="benefits">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Benefits</span>
+        <h2 class="section-title">Why teams choose ContainifyCI</h2>
+
+        <div class="benefits-grid">
+          <div class="benefit-card glass">
+            <div class="benefit-icon">&#x1F512;</div>
+            <h3>Builds that never drift</h3>
+            <p>Containers lock down every tool version. The "but it works on my laptop" conversation is over.</p>
+          </div>
+
+          <div class="benefit-card glass">
+            <div class="benefit-icon">&#x26A1;</div>
+            <h3>Onboard in minutes, not days</h3>
+            <p>New team members run <code>engine-ci run</code> and get the exact same build as everyone else. No setup wikis. No tribal knowledge.</p>
+          </div>
+
+          <div class="benefit-card glass">
+            <div class="benefit-icon">&#x1F310;</div>
+            <h3>One tool for every language</h3>
+            <p>Go, Java, Python, and more through a modular extension system. Your team learns one workflow regardless of the stack.</p>
+          </div>
+
+          <div class="benefit-card glass">
+            <div class="benefit-icon">&#x1F6E1;&#xFE0F;</div>
+            <h3>Security built in, not bolted on</h3>
+            <p>Container image scanning, secret management, and automated dependency updates are part of the pipeline — not afterthoughts.</p>
+          </div>
+
+          <div class="benefit-card glass">
+            <div class="benefit-icon">&#x1F3CE;&#xFE0F;</div>
+            <h3>Fast by default</h3>
+            <p>Build steps run in parallel where possible. No configuration needed — ContainifyCI figures out what can run concurrently.</p>
+          </div>
+
+          <div class="benefit-card glass">
+            <div class="benefit-icon">&#x1F513;</div>
+            <h3>No vendor lock-in</h3>
+            <p>Works with Docker and Podman. Runs in GitHub Actions, GitLab CI, or any environment with a container runtime. Your pipeline is yours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 7. Get Started ========== -->
+  <section class="section" id="get-started">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Quick Start</span>
+        <h2 class="section-title">Get started in 30 seconds</h2>
+
+        <div class="get-started-terminal glass">
+          <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">terminal</span>
+          </div>
+          <div class="terminal-body">
+            <button class="copy-btn" aria-label="Copy to clipboard">Copy</button>
+            <pre><code class="language-bash"># 1. Install
+go install github.com/containifyci/engine-ci@latest
+
+# 2. Initialize your project
+engine-ci init
+
+# 3. Build — same result everywhere
+engine-ci run</code></pre>
+          </div>
+        </div>
+
+        <p class="get-started-note">
+          <code>engine-ci init</code> creates a <code>.containifyci/containifyci.go</code> file — your entire build pipeline in a single Go file that you can read, test, and version-control like any other code.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 8. Real-World Example ========== -->
+  <section class="section example" id="real-world">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Real-World Example</span>
+        <h2 class="section-title">See it in action</h2>
+        <p class="section-subtitle">Here's how <a href="https://github.com/containifyci/dunebot" target="_blank" rel="noopener">dunebot</a> — a real ContainifyCI project — defines its entire build and CI pipeline.</p>
+
+        <div class="example-blocks">
+          <!-- Go build definition -->
+          <div class="example-block glass">
+            <div class="example-block-header">
+              <span class="example-block-label">1. Define your build</span>
+              <span class="example-block-file">.containifyci/containifyci.go</span>
+            </div>
+            <pre><code class="language-go">package main
+
+import (
+    "os"
+
+    "github.com/containifyci/engine-ci/client/pkg/build"
+    "github.com/containifyci/engine-ci/protos2"
+)
+
+func main() {
+    os.Chdir("../")
+    opts := build.NewGoServiceBuild("dunebot")
+    opts.Application = "dunebot"
+    opts.File = "main.go"
+    opts.Properties = map[string]*build.ListValue{
+        "goreleaser": build.NewList("true"),
+    }
+    build.Serve(opts)
+}</code></pre>
+          </div>
+
+          <!-- PR workflow -->
+          <div class="example-block glass">
+            <div class="example-block-header">
+              <span class="example-block-label">2. Wire it into GitHub Actions</span>
+              <span class="example-block-file">.github/workflows/pull-request.yaml</span>
+            </div>
+            <pre><code class="language-yaml">name: Pull Request
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    uses: containifyci/.github/.github/workflows/pull-request.yml@v1
+    secrets: inherit</code></pre>
+          </div>
+
+          <!-- Release workflow -->
+          <div class="example-block glass">
+            <div class="example-block-header">
+              <span class="example-block-label">3. Add a release workflow</span>
+              <span class="example-block-file">.github/workflows/release.yaml</span>
+            </div>
+            <pre><code class="language-yaml">name: Release
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['.github/**']
+
+jobs:
+  build-and-release:
+    uses: containifyci/.github/.github/workflows/release.yml@v1
+    secrets: inherit</code></pre>
+          </div>
+        </div>
+
+        <div class="example-callout glass">
+          <p><strong>One Go file</strong> for your build logic. <strong>Two tiny YAML files</strong> to connect it to GitHub Actions. The same <code>engine-ci run</code> command works locally and in CI — no divergence, no surprises.</p>
+          <p style="margin-top: 0.75rem;">See the full working example at <a href="https://github.com/containifyci/dunebot/tree/main/.github/workflows" target="_blank" rel="noopener">containifyci/dunebot</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 9. Ecosystem ========== -->
+  <section class="section" id="ecosystem">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Ecosystem</span>
+        <h2 class="section-title">More than a build engine</h2>
+        <p class="section-subtitle">ContainifyCI is a growing toolkit for modern CI/CD.</p>
+
+        <!-- Build Engine -->
+        <div class="ecosystem-category">
+          <h3 class="ecosystem-category-title">&#x2699;&#xFE0F; Build Engine</h3>
+          <div class="ecosystem-grid">
+            <div class="eco-card glass">
+              <h4><a href="https://github.com/containifyci/engine-ci" target="_blank" rel="noopener">engine-ci</a></h4>
+              <p>The core — containerized CI/CD pipelines defined in Go</p>
+            </div>
+            <div class="eco-card glass">
+              <h4><a href="https://github.com/containifyci/engine-java" target="_blank" rel="noopener">engine-java</a></h4>
+              <p>Java &amp; Maven build support</p>
+            </div>
+            <div class="eco-card glass">
+              <h4><a href="https://github.com/containifyci/engine-python" target="_blank" rel="noopener">engine-python</a></h4>
+              <p>Python build support</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automation & Security -->
+        <div class="ecosystem-category">
+          <h3 class="ecosystem-category-title">&#x1F6E1;&#xFE0F; Automation &amp; Security</h3>
+          <div class="ecosystem-grid">
+            <div class="eco-card glass">
+              <h4><a href="https://github.com/containifyci/dunebot" target="_blank" rel="noopener">dunebot</a></h4>
+              <p>GitHub App that auto-reviews and merges dependency PRs</p>
+            </div>
+            <div class="eco-card glass">
+              <h4><a href="https://github.com/containifyci/feller" target="_blank" rel="noopener">feller</a></h4>
+              <p>Secret management for GitHub Actions (Google Secret Manager, dotenv, and more)</p>
+            </div>
+            <div class="eco-card glass">
+              <h4><a href="https://github.com/containifyci/secret-operator" target="_blank" rel="noopener">secret-operator</a></h4>
+              <p>One-time secret retrieval for secure cloud provisioning</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Developer Tools -->
+        <div class="ecosystem-category">
+          <h3 class="ecosystem-category-title">&#x1F6E0;&#xFE0F; Developer Tools</h3>
+          <div class="ecosystem-grid">
+            <div class="eco-card glass">
+              <h4><a href="https://github.com/containifyci/go-self-update" target="_blank" rel="noopener">go-self-update</a></h4>
+              <p>Add auto-update capabilities to any Go CLI</p>
+            </div>
+            <div class="eco-card glass">
+              <h4><a href="https://github.com/containifyci/dependabot-templater" target="_blank" rel="noopener">dependabot-templater</a></h4>
+              <p>Auto-generate Dependabot configs for multi-folder repos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 10. Under the Hood ========== -->
+  <section class="section hood" id="under-the-hood">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Technical Deep Dive</span>
+        <h2 class="section-title">Under the Hood</h2>
+
+        <h3 style="font-size:1.25rem; margin-top:2rem; margin-bottom:1rem;">Why Go instead of YAML?</h3>
+
+        <div class="hood-comparison">
+          <table class="hood-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>YAML Pipelines</th>
+                <th>Go Pipelines (ContainifyCI)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Error detection</td>
+                <td class="yaml-col">Runtime — fails mid-build</td>
+                <td class="go-col">Compile time — fails before build starts</td>
+              </tr>
+              <tr>
+                <td>Testing</td>
+                <td class="yaml-col">Manual / none</td>
+                <td class="go-col">Unit tests with <code>go test</code></td>
+              </tr>
+              <tr>
+                <td>IDE support</td>
+                <td class="yaml-col">Syntax highlighting only</td>
+                <td class="go-col">Full autocomplete, refactoring, go-to-definition</td>
+              </tr>
+              <tr>
+                <td>Reuse</td>
+                <td class="yaml-col">Copy-paste snippets</td>
+                <td class="go-col">Import packages, call functions</td>
+              </tr>
+              <tr>
+                <td>Debugging</td>
+                <td class="yaml-col">Push and pray</td>
+                <td class="go-col">Run locally, set breakpoints</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Architecture -->
+        <div class="hood-arch">
+          <h3>Architecture</h3>
+          <div class="arch-flow">
+            <div class="arch-step glass">Your code <code>(.containifyci/containifyci.go)</code></div>
+            <div class="arch-arrow">&#x2193;</div>
+            <div class="arch-step glass">engine-ci CLI &#x2192; Compiles to single binary</div>
+            <div class="arch-arrow">&#x2193;</div>
+            <div class="arch-step glass">Container runtime (Docker / Podman)</div>
+            <div class="arch-arrow">&#x2193;</div>
+            <div class="arch-step glass">Isolated build steps with pinned tool versions</div>
+          </div>
+
+          <p class="hood-arch-desc">
+            <strong>engine-ci</strong> reads your build definition from <code>.containifyci/containifyci.go</code>, compiles it into a self-contained binary, and orchestrates containers to execute each build step in isolation. Tool versions are pinned inside the containers — not on the host machine.
+          </p>
+          <p class="hood-arch-desc" style="margin-top:0.75rem;">
+            Language support is modular. <a href="https://github.com/containifyci/engine-java" target="_blank" rel="noopener">engine-java</a> and <a href="https://github.com/containifyci/engine-python" target="_blank" rel="noopener">engine-python</a> are extensions that plug into the core. Adding support for a new language means writing a Go package that implements the build interface.
+          </p>
+        </div>
+
+        <!-- Integrations -->
+        <div class="integration-pills">
+          <h3>Key Integrations</h3>
+          <div class="pills">
+            <span class="pill">&#x1F433; Docker</span>
+            <span class="pill">&#x1F9AD; Podman</span>
+            <span class="pill">&#x1F50D; Trivy</span>
+            <span class="pill">&#x1F4E6; GoReleaser</span>
+            <span class="pill">&#x1F511; Feller</span>
+            <span class="pill">&#x1F916; Dunebot</span>
+            <span class="pill">&#x2699;&#xFE0F; GitHub Actions</span>
+            <span class="pill">&#x1F98A; GitLab CI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 11. Contributing ========== -->
+  <section class="section" id="contributing">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Open Source</span>
+        <h2 class="section-title">Contributing</h2>
+        <p class="section-subtitle">ContainifyCI is open-source under the Apache License 2.0. We welcome every kind of contribution.</p>
+
+        <div class="contrib-grid">
+          <div class="contrib-card glass">
+            <div class="contrib-icon">&#x1F680;</div>
+            <h3>Use it</h3>
+            <p>Try engine-ci on your project and tell us what breaks.</p>
+          </div>
+          <div class="contrib-card glass">
+            <div class="contrib-icon">&#x1F527;</div>
+            <h3>Fix it</h3>
+            <p>Found a bug? PRs are always welcome.</p>
+          </div>
+          <div class="contrib-card glass">
+            <div class="contrib-icon">&#x1F9E9;</div>
+            <h3>Extend it</h3>
+            <p>Build a language extension and share it with the community.</p>
+          </div>
+          <div class="contrib-card glass">
+            <div class="contrib-icon">&#x1F4AC;</div>
+            <h3>Talk about it</h3>
+            <p>Open issues, start discussions, share your experience.</p>
+          </div>
+        </div>
+
+        <div class="contrib-footer">
+          <a href="https://github.com/containifyci" class="btn btn-primary" target="_blank" rel="noopener">github.com/containifyci</a>
+          <p style="margin-top:1.5rem;">Let's make CI/CD better, together.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 12. Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Build Engine</h4>
+          <ul>
+            <li><a href="https://github.com/containifyci/engine-ci" target="_blank" rel="noopener">engine-ci</a></li>
+            <li><a href="https://github.com/containifyci/engine-java" target="_blank" rel="noopener">engine-java</a></li>
+            <li><a href="https://github.com/containifyci/engine-python" target="_blank" rel="noopener">engine-python</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Automation</h4>
+          <ul>
+            <li><a href="https://github.com/containifyci/dunebot" target="_blank" rel="noopener">dunebot</a></li>
+            <li><a href="https://github.com/containifyci/feller" target="_blank" rel="noopener">feller</a></li>
+            <li><a href="https://github.com/containifyci/secret-operator" target="_blank" rel="noopener">secret-operator</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://github.com/containifyci" target="_blank" rel="noopener">GitHub Organization</a></li>
+            <li><a href="https://github.com/containifyci/engine-ci/releases" target="_blank" rel="noopener">Releases</a></li>
+            <li><a href="https://github.com/containifyci/engine-ci/blob/main/LICENSE" target="_blank" rel="noopener">License (Apache 2.0)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 ContainifyCI Contributors. Apache License 2.0.</p>
+        <p>Built with &#x2764;&#xFE0F; for developers who ship.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JS -->
+  <script src="js/main.js"></script>
+</body>
+</html>
