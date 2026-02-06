@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 560">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4ABDE8"/>
+      <stop offset="100%" stop-color="#1A5276"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Gear body -->
+  <circle cx="250" cy="220" r="152" fill="url(#g)"/>
+
+  <!-- 10 gear teeth -->
+  <g fill="url(#g)">
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(0,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(36,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(72,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(108,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(144,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(180,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(216,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(252,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(288,250,220)"/>
+    <rect x="227" y="30" width="46" height="44" rx="7" transform="rotate(324,250,220)"/>
+  </g>
+
+  <!-- White inner circle -->
+  <circle cx="250" cy="220" r="118" fill="#ffffff"/>
+
+  <!-- Blue container (top-left) -->
+  <rect x="186" y="168" width="58" height="47" rx="5" fill="#2874A6"/>
+  <line x1="200" y1="174" x2="200" y2="209" stroke="#fff" stroke-width="2.5"/>
+  <line x1="210" y1="174" x2="210" y2="209" stroke="#fff" stroke-width="2.5"/>
+  <line x1="220" y1="174" x2="220" y2="209" stroke="#fff" stroke-width="2.5"/>
+  <line x1="230" y1="174" x2="230" y2="209" stroke="#fff" stroke-width="2.5"/>
+
+  <!-- Orange container (top-right) -->
+  <rect x="256" y="168" width="58" height="47" rx="5" fill="#E67E22"/>
+  <line x1="270" y1="174" x2="270" y2="209" stroke="#fff" stroke-width="2.5"/>
+  <line x1="280" y1="174" x2="280" y2="209" stroke="#fff" stroke-width="2.5"/>
+  <line x1="290" y1="174" x2="290" y2="209" stroke="#fff" stroke-width="2.5"/>
+  <line x1="300" y1="174" x2="300" y2="209" stroke="#fff" stroke-width="2.5"/>
+
+  <!-- Green container (bottom-left) -->
+  <rect x="186" y="225" width="58" height="47" rx="5" fill="#27AE60"/>
+  <line x1="200" y1="231" x2="200" y2="266" stroke="#fff" stroke-width="2.5"/>
+  <line x1="210" y1="231" x2="210" y2="266" stroke="#fff" stroke-width="2.5"/>
+  <line x1="220" y1="231" x2="220" y2="266" stroke="#fff" stroke-width="2.5"/>
+  <line x1="230" y1="231" x2="230" y2="266" stroke="#fff" stroke-width="2.5"/>
+
+  <!-- Yellow container (bottom-right, dashed = being built) -->
+  <rect x="256" y="225" width="58" height="47" rx="5" fill="#F4D03F" fill-opacity="0.2" stroke="#D4AC0D" stroke-width="2.5" stroke-dasharray="6,4"/>
+  <line x1="270" y1="231" x2="270" y2="266" stroke="#D4AC0D" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="280" y1="231" x2="280" y2="266" stroke="#D4AC0D" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="290" y1="231" x2="290" y2="266" stroke="#D4AC0D" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="300" y1="231" x2="300" y2="266" stroke="#D4AC0D" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <!-- Clockwise curved arrow over the top of containers -->
+  <path d="M 195,178 A 82,82 0 0,1 305,265" stroke="#34495E" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- Arrowhead pointing downward -->
+  <polygon points="308,274 295,257 315,255" fill="#34495E"/>
+
+  <!-- Text: ContainifyCI -->
+  <text x="250" y="492" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="54" font-weight="bold" letter-spacing="-1">
+    <tspan fill="#2C3E50">Containify</tspan><tspan fill="#00BCD4">CI</tspan>
+  </text>
+</svg>

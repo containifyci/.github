@@ -1,54 +1,293 @@
-# ContainifyCI
+<p align="center">
+  <img src="logo.svg" alt="ContainifyCI Logo" width="125" height="150">
+</p>
 
-Welcome to **ContainifyCI**! 🚀
+<h1 align="center">ContainifyCI</h1>
 
-ContainifyCI is an open-source organization dedicated to simplifying the process of running containerized CI/CD pipelines. Our mission is to provide developers and teams with powerful, flexible, and easy-to-use tools to streamline their continuous integration and continuous deployment workflows.
+<p align="center"><strong>Stop debugging your pipeline. Start shipping your code.</strong></p>
 
-## 🎯 Vision
+<p align="center">Containerized CI/CD pipelines defined in Go — identical builds on your laptop and in CI.</p>
 
-In today's fast-paced development environments, continuous integration and continuous deployment (CI/CD) have become essential practices. However, managing and running CI/CD pipelines can be complex, especially when dealing with various environments, dependencies, and tools.
+<p align="center">
+  <a href="https://github.com/containifyci/engine-ci"><img src="https://img.shields.io/github/stars/containifyci/engine-ci?style=flat&label=Stars" alt="GitHub Stars"></a>&nbsp;
+  <a href="https://github.com/containifyci/engine-ci/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>&nbsp;
+  <a href="https://github.com/containifyci/engine-ci/releases"><img src="https://img.shields.io/github/v/release/containifyci/engine-ci" alt="Latest Release"></a>&nbsp;
+  <img src="https://img.shields.io/badge/Go-1.25+-00ADD8?logo=go&logoColor=white" alt="Go Version">
+</p>
 
-**ContainifyCI** aims to tackle this challenge by providing a suite of open-source tools and resources that make it easier to:
+<p align="center">
+  <a href="https://github.com/containifyci/engine-ci"><strong>Get Started</strong></a> &nbsp;&bull;&nbsp;
+  <a href="#the-old-way-vs-the-containifyci-way">See the Difference</a> &nbsp;&bull;&nbsp;
+  <a href="#ecosystem">Ecosystem</a> &nbsp;&bull;&nbsp;
+  <a href="#under-the-hood">Technical Deep Dive</a>
+</p>
 
-- **Containerize CI/CD Pipelines**: Leverage the power of containers to create isolated, consistent, and reproducible CI/CD environments.
-- **Simplify Pipeline Management**: Reduce the complexity of managing and orchestrating CI/CD pipelines across different stages and environments.
-- **Enhance Flexibility**: Offer customizable solutions that can be tailored to fit the specific needs of individual projects and teams.
+---
 
-## 🛠️ Projects
+## Your builds should just work
 
-As we are still in the **Proof of Concept (PoC)** phase, the projects under the ContainifyCI umbrella are experimental and evolving. Here are some of the key initiatives we're currently exploring:
+Every team hits the same wall. The build passes on your laptop but breaks in CI. A new developer joins and loses a day setting up their environment. A silent version mismatch ships a broken artifact to production.
 
-- **Pipeline Runner**: A lightweight tool written in **Golang** for running CI/CD pipelines inside containers. Golang provides several advantages, including:
-  - **Ease of Writing Tests**: Golang's robust testing framework makes it straightforward to write and maintain tests for your CI/CD pipelines.
-  - **Full Dependency Management**: Golang's module system ensures that all dependencies are well-managed and versioned, leading to more reliable builds.
-  - **Single Binary Execution**: The pipeline tool compiles down to a single binary, making it easy to run the pipelines consistently across different environments (local, CI/CD servers, etc.) without needing additional dependencies or runtimes.
+**You end up debugging your pipeline instead of building your product.**
 
-- **Container Orchestration**: A set of scripts and tools for orchestrating the execution of containerized pipelines across different environments, ensuring scalability and reliability.
-- **Plugin System**: A modular plugin system that allows users to extend the functionality of their pipelines with custom tasks, integrations, and tools. (Still in the early stages of development)
+ContainifyCI eliminates this entire class of problems. Define your pipeline in Go, run it in containers, and get identical results everywhere — your machine, your teammate's machine, and CI.
 
-Stay tuned as we continue to refine and expand our offerings!
+```
+engine-ci run
+```
 
-## 🌐 Community and Contributions
+One command. No YAML. No drift. No surprises.
 
-ContainifyCI is open-source, and we welcome contributions from developers, DevOps engineers, and anyone interested in improving CI/CD processes. Whether you're looking to report bugs, suggest features, or contribute code, your input is invaluable.
+---
 
-### How to Contribute
+## The old way vs. the ContainifyCI way
 
-1. **Fork the Repository**: Start by forking the project repository you're interested in.
-2. **Create a Feature Branch**: Work on your changes in a dedicated branch.
-3. **Submit a Pull Request**: Once your changes are ready, submit a pull request for review.
-4. **Join the Discussion**: Participate in discussions by opening issues, commenting on pull requests, and engaging with the community.
+<table>
+<tr>
+<th width="50%">Without ContainifyCI</th>
+<th width="50%">With ContainifyCI</th>
+</tr>
+<tr>
+<td>
 
-## 📜 License
+- Hundreds of lines of YAML nobody wants to touch
+- "Works on my machine" but fails in CI
+- New developers spend hours setting up tooling
+- Different tool versions across environments
+- Pipeline logic scattered across shell scripts
+- Debugging means push-and-pray
 
-ContainifyCI projects are released under the **Apache License 2.0**. This license allows you to freely use, modify, and distribute the code, while also providing protection for contributors and users.
+</td>
+<td>
 
-For more details, see the full license [here](LICENSE).
+- Pipeline defined in **real, testable code**
+- **Identical builds** on every machine, every time
+- New developers run **one command** and they're ready
+- Tool versions **pinned in containers** automatically
+- All build logic in **one place**, version-controlled
+- **Debug locally** before you push
 
-## 🤝 Join Us
+</td>
+</tr>
+</table>
 
-Whether you're a seasoned developer or just starting out, ContainifyCI offers a great opportunity to contribute to the open-source community and help shape the future of CI/CD tooling.
+---
 
-- **GitHub Organization**: [github.com/containifyci](https://github.com/containifyci)
+## How it works
 
-Let's make CI/CD better, together.
+<table>
+<tr>
+<td width="33%" align="center">
+
+### Define
+
+Write your build pipeline in Go — a real language with types, tests, and your IDE's full support. No more guessing if your YAML is valid.
+
+</td>
+<td width="33%" align="center">
+
+### Containerize
+
+Every step runs inside a container with pinned tool versions. What runs on your laptop is exactly what runs in CI.
+
+</td>
+<td width="33%" align="center">
+
+### Ship
+
+One binary, zero dependencies. Works anywhere Docker or Podman runs — macOS, Linux, GitHub Actions, or your own infrastructure.
+
+</td>
+</tr>
+</table>
+
+---
+
+## Why teams choose ContainifyCI
+
+**Builds that never drift** — Containers lock down every tool version. The "but it works on my laptop" conversation is over.
+
+**Onboard in minutes, not days** — New team members run `engine-ci run` and get the exact same build as everyone else. No setup wikis. No tribal knowledge.
+
+**One tool for every language** — Go, Java, Python, and more through a modular extension system. Your team learns one workflow regardless of the stack.
+
+**Security built in, not bolted on** — Container image scanning, secret management, and automated dependency updates are part of the pipeline — not afterthoughts.
+
+**Fast by default** — Build steps run in parallel where possible. No configuration needed — ContainifyCI figures out what can run concurrently.
+
+**No vendor lock-in** — Works with Docker and Podman. Runs in GitHub Actions, GitLab CI, or any environment with a container runtime. Your pipeline is yours.
+
+---
+
+## Get started in 30 seconds
+
+```bash
+# 1. Install
+go install github.com/containifyci/engine-ci@latest
+
+# 2. Initialize your project
+engine-ci init
+
+# 3. Build — same result everywhere
+engine-ci run
+```
+
+`engine-ci init` creates a `.containifyci/containifyci.go` file — your entire build pipeline in a single Go file that you can read, test, and version-control like any other code.
+
+---
+
+## Real-world example
+
+Here's how [dunebot](https://github.com/containifyci/dunebot) — a real ContainifyCI project — defines its entire build and CI pipeline.
+
+**1. Define your build** — `.containifyci/containifyci.go`
+
+```go
+package main
+
+import (
+    "os"
+
+    "github.com/containifyci/engine-ci/client/pkg/build"
+    "github.com/containifyci/engine-ci/protos2"
+)
+
+func main() {
+    os.Chdir("../")
+    opts := build.NewGoServiceBuild("dunebot")
+    opts.Application = "dunebot"
+    opts.File = "main.go"
+    opts.Properties = map[string]*build.ListValue{
+        "goreleaser": build.NewList("true"),
+    }
+    build.Serve(opts)
+}
+```
+
+That's the entire build definition. Linting, testing, building, container image scanning, and release automation — all handled by `engine-ci`.
+
+**2. Wire it into GitHub Actions** — `.github/workflows/pull-request.yaml`
+
+```yaml
+name: Pull Request
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    uses: containifyci/.github/.github/workflows/pull-request.yml@v1
+    secrets: inherit
+```
+
+**3. Add a release workflow** — `.github/workflows/release.yaml`
+
+```yaml
+name: Release
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['.github/**']
+
+jobs:
+  build-and-release:
+    uses: containifyci/.github/.github/workflows/release.yml@v1
+    secrets: inherit
+```
+
+That's it. **One Go file** for your build logic. **Two tiny YAML files** to connect it to GitHub Actions. The same `engine-ci run` command works locally and in CI — no divergence, no surprises.
+
+> See the full working example at [containifyci/dunebot/.github/workflows](https://github.com/containifyci/dunebot/tree/main/.github/workflows)
+
+---
+
+## Ecosystem
+
+ContainifyCI is more than a build engine. It's a growing toolkit for modern CI/CD.
+
+### Build Engine
+
+| | Project | Description |
+|---|---|---|
+| | [**engine-ci**](https://github.com/containifyci/engine-ci) | The core — containerized CI/CD pipelines defined in Go |
+| | [**engine-java**](https://github.com/containifyci/engine-java) | Java & Maven build support |
+| | [**engine-python**](https://github.com/containifyci/engine-python) | Python build support |
+
+### Automation & Security
+
+| | Project | Description |
+|---|---|---|
+| | [**dunebot**](https://github.com/containifyci/dunebot) | GitHub App that auto-reviews and merges dependency PRs |
+| | [**feller**](https://github.com/containifyci/feller) | Secret management for GitHub Actions (Google Secret Manager, dotenv, and more) |
+| | [**secret-operator**](https://github.com/containifyci/secret-operator) | One-time secret retrieval for secure cloud provisioning |
+
+### Developer Tools
+
+| | Project | Description |
+|---|---|---|
+| | [**go-self-update**](https://github.com/containifyci/go-self-update) | Add auto-update capabilities to any Go CLI |
+| | [**dependabot-templater**](https://github.com/containifyci/dependabot-templater) | Auto-generate Dependabot configs for multi-folder repos |
+
+---
+
+<details>
+<summary><h2 id="under-the-hood">Under the Hood</h2></summary>
+
+### Why Go instead of YAML?
+
+Most CI tools force you into YAML or a proprietary DSL. ContainifyCI takes a different approach: your pipeline is Go code.
+
+| | YAML pipelines | Go pipelines (ContainifyCI) |
+|---|---|---|
+| **Error detection** | Runtime — fails mid-build | Compile time — fails before build starts |
+| **Testing** | Manual / none | Unit tests with `go test` |
+| **IDE support** | Syntax highlighting only | Full autocomplete, refactoring, go-to-definition |
+| **Reuse** | Copy-paste snippets | Import packages, call functions |
+| **Debugging** | Push and pray | Run locally, set breakpoints |
+
+### Architecture
+
+```
+Your code (.containifyci/containifyci.go)
+        |
+        v
+   engine-ci CLI  ──>  Compiles to single binary
+        |
+        v
+  Container runtime (Docker / Podman)
+        |
+        v
+  Isolated build steps with pinned tool versions
+```
+
+**engine-ci** reads your build definition from `.containifyci/containifyci.go`, compiles it into a self-contained binary, and orchestrates containers to execute each build step in isolation. Tool versions are pinned inside the containers — not on the host machine.
+
+Language support is modular. [engine-java](https://github.com/containifyci/engine-java) and [engine-python](https://github.com/containifyci/engine-python) are extensions that plug into the core. Adding support for a new language means writing a Go package that implements the build interface.
+
+### Key integrations
+
+- **Container runtimes** — Docker and Podman, no vendor lock-in
+- **Image scanning** — Trivy for automatic vulnerability detection
+- **Release automation** — GoReleaser for versioned releases
+- **Secret management** — [feller](https://github.com/containifyci/feller) for GitHub Actions secrets
+- **Dependency automation** — [dunebot](https://github.com/containifyci/dunebot) for auto-merging Dependabot PRs
+
+</details>
+
+---
+
+## Contributing
+
+ContainifyCI is open-source under the **Apache License 2.0**. We welcome every kind of contribution.
+
+**Use it** — Try engine-ci on your project and tell us what breaks.
+**Fix it** — Found a bug? PRs are always welcome.
+**Extend it** — Build a language extension and share it with the community.
+**Talk about it** — Open issues, start discussions, share your experience.
+
+<p align="center">
+  <a href="https://github.com/containifyci"><strong>github.com/containifyci</strong></a>
+</p>
+
+<p align="center"><em>Let's make CI/CD better, together.</em></p>
