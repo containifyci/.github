@@ -121,6 +121,17 @@ code, pre {
   font-family: var(--font-heading);
 }
 
+.badge-link {
+  text-decoration: none;
+  transition: background .2s, border-color .2s;
+}
+
+.badge-link:hover {
+  background: rgba(6, 182, 212, 0.2);
+  border-color: rgba(6, 182, 212, 0.4);
+  color: var(--accent-cyan);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

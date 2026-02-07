@@ -99,6 +99,7 @@
         <span class="badge">Open Source</span>
         <span class="badge">Apache 2.0</span>
         <span class="badge">Go 1.25+</span>
+        <a href="https://hub.docker.com/u/containifyci" class="badge badge-link" target="_blank" rel="noopener">Docker Hub Images</a>
       </div>
 
       <h1>
@@ -640,6 +641,71 @@ jobs:
             </div>
           </div>
           <p class="hood-arch-desc" style="margin-top:1rem;">Auto-detection picks the available runtime, or override with the <code>CONTAINER_RUNTIME</code> env var.</p>
+        </div>
+
+        <!-- Container Images -->
+        <div class="hood-arch" style="margin-top:3rem;">
+          <h3>Container Images</h3>
+          <p class="hood-arch-desc" style="margin-top:0; margin-bottom:1.5rem;">
+            engine-ci builds and publishes its own container images to <a href="https://hub.docker.com/u/containifyci" target="_blank" rel="noopener">Docker Hub</a>. Each build step runs inside a purpose-built image with pinned tool versions. The images themselves are built by engine-ci — full dogfooding.
+          </p>
+
+          <div class="image-mgmt-grid">
+            <div class="secret-card glass">
+              <h4>&#x1F4E6; Checksum-Based Tags</h4>
+              <p>Each Dockerfile is hashed at compile time. The SHA256 checksum becomes the image tag, so a rebuilt image is only pushed when the Dockerfile actually changes.</p>
+            </div>
+            <div class="secret-card glass">
+              <h4>&#x2699;&#xFE0F; Compile-Time Metadata</h4>
+              <p>Go's <code>go:generate</code> extracts Dockerfile content, base image versions, and checksums into generated Go code — no runtime parsing, errors caught before the build starts.</p>
+            </div>
+            <div class="secret-card glass">
+              <h4>&#x1F3D7;&#xFE0F; Multi-Arch Builds</h4>
+              <p>All images are built for both <code>linux/amd64</code> and <code>linux/arm64</code>, so the same pipeline works on Intel and Apple Silicon machines.</p>
+            </div>
+            <div class="secret-card glass">
+              <h4>&#x1F504; Layered Image Strategy</h4>
+              <p>Intermediate build images contain compilers and tooling. Production images are minimal (Alpine-based) — only the compiled binary and a non-root user.</p>
+            </div>
+          </div>
+
+          <div class="hood-comparison" style="margin-top:2rem;">
+            <table class="hood-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Purpose</th>
+                  <th>Base</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>containifyci/golang-*</code></td>
+                  <td>Go build with linting (Alpine, Debian, CGO variants)</td>
+                  <td>golang:1.25-alpine / golang:1.25</td>
+                </tr>
+                <tr>
+                  <td><code>containifyci/maven-*</code></td>
+                  <td>Java &amp; Maven builds with TestContainers</td>
+                  <td>eclipse-temurin JDK</td>
+                </tr>
+                <tr>
+                  <td><code>containifyci/python-*</code></td>
+                  <td>Python build, lint, and packaging</td>
+                  <td>python:3.14-slim-bookworm</td>
+                </tr>
+                <tr>
+                  <td><code>containifyci/sonar</code></td>
+                  <td>SonarCloud scanner (multi-arch)</td>
+                  <td>alpine:3.20</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="hood-arch-desc" style="margin-top:1rem;">
+            All images are hosted at <a href="https://hub.docker.com/u/containifyci" target="_blank" rel="noopener">hub.docker.com/u/containifyci</a>. engine-ci pulls or builds them automatically — no manual image management needed.
+          </p>
         </div>
 
         <!-- Secure Secrets -->
