@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ContainifyCI — Containerized CI/CD Pipelines Defined in Go</title>
-  <meta name="description" content="Stop debugging your pipeline. Start shipping your code. Containerized CI/CD pipelines defined in Go — identical builds on your laptop and in CI.">
+  <title>ContainifyCI Containerized CI/CD Pipelines Defined in Go</title>
+  <meta name="description" content="Stop debugging your pipeline. Start shipping your code. Containerized CI/CD pipelines defined in Go. Identical builds on your laptop and in CI.">
 
   <!-- Open Graph -->
   <meta property="og:title" content="ContainifyCI — Containerized CI/CD Pipelines Defined in Go">
@@ -54,9 +54,10 @@
         <a href="#problem">Problem</a>
         <a href="#how-it-works">How It Works</a>
         <a href="#benefits">Benefits</a>
-        <a href="#ecosystem">Ecosystem</a>
         <a href="#languages">Languages</a>
-        <a href="#under-the-hood">Deep Dive</a>
+        <a href="#get-started">Get Started</a>
+        <a href="#ecosystem">Ecosystem</a>
+        <a href="technical.html">Deep Dive</a>
       </div>
 
       <a href="https://github.com/containifyci/engine-ci" class="btn btn-primary nav-cta" target="_blank" rel="noopener">
@@ -79,7 +80,7 @@
     <a href="#get-started">Get Started</a>
     <a href="#ecosystem">Ecosystem</a>
     <a href="#languages">Languages</a>
-    <a href="#under-the-hood">Deep Dive</a>
+    <a href="technical.html">Deep Dive</a>
     <a href="#contributing">Contributing</a>
     <a href="https://github.com/containifyci/engine-ci" class="btn btn-primary" target="_blank" rel="noopener">GitHub Repo</a>
   </div>
@@ -87,7 +88,7 @@
   <!-- ========== Dev Banner ========== -->
   <div class="dev-banner">
     <div class="container">
-      This is a hobby project under active development — <a href="https://github.com/containifyci/engine-ci" target="_blank" rel="noopener">contributions welcome!</a>
+      Under active development <a href="https://github.com/containifyci/engine-ci" target="_blank" rel="noopener">contributions welcome!</a>
     </div>
   </div>
 
@@ -108,7 +109,7 @@
       </h1>
 
       <p class="hero-subtitle">
-        Containerized CI/CD pipelines defined in Go — identical builds on your laptop and in CI.
+        Containerized CI/CD pipelines defined in Go. Identical builds on your laptop and in CI.
       </p>
 
       <div class="hero-ctas">
@@ -132,7 +133,7 @@
         <div class="problem-text">
           <p>Every team hits the same wall. The build passes on your laptop but breaks in CI. A new developer joins and loses a day setting up their environment. A silent version mismatch ships a broken artifact to production.</p>
           <p><strong>You end up debugging your pipeline instead of building your product.</strong></p>
-          <p>ContainifyCI eliminates this entire class of problems. Define your pipeline in Go, run it in containers, and get identical results everywhere — your machine, your teammate's machine, and CI.</p>
+          <p>ContainifyCI eliminates this entire class of problems. Define your pipeline in Go, run it in containers, and get identical results everywhere on your machine, your teammate's machine, and CI.</p>
         </div>
 
         <div class="problem-code glass">
@@ -191,7 +192,7 @@
             <div class="step-number">Step 1</div>
             <div class="step-icon">&#x270D;&#xFE0F;</div>
             <h3>Define</h3>
-            <p>Write your build pipeline in Go — a real language with types, tests, and your IDE's full support. No more guessing if your YAML is valid.</p>
+            <p>Write your build pipeline in Go a real language with types, tests, and your IDE's full support. No more guessing if your YAML is valid.</p>
           </div>
 
           <div class="steps-arrow">&#x2192;</div>
@@ -209,7 +210,7 @@
             <div class="step-number">Step 3</div>
             <div class="step-icon">&#x1F680;</div>
             <h3>Ship</h3>
-            <p>One binary, zero dependencies. Works anywhere Docker or Podman runs — macOS, Linux, GitHub Actions, or your own infrastructure.</p>
+            <p>One binary, zero dependencies. Works anywhere Docker or Podman runs on macOS, Linux, GitHub Actions, or your own infrastructure.</p>
           </div>
         </div>
       </div>
@@ -224,6 +225,12 @@
         <h2 class="section-title">Why to choose ContainifyCI</h2>
 
         <div class="benefits-grid">
+          <div class="benefit-card glass">
+            <div class="benefit-icon">&#x1F513;</div>
+            <h3>No vendor lock-in</h3>
+            <p>Works with Docker and Podman. Runs in GitHub Actions, GitLab CI, or any environment with a container runtime. Your pipeline is yours.</p>
+          </div>
+
           <div class="benefit-card glass">
             <div class="benefit-icon">&#x1F512;</div>
             <h3>Builds that never drift</h3>
@@ -243,21 +250,9 @@
           </div>
 
           <div class="benefit-card glass">
-            <div class="benefit-icon">&#x1F6E1;&#xFE0F;</div>
-            <h3>Security built in, not bolted on</h3>
-            <p>Container image scanning, in-memory secrets store, secret management, and automated dependency updates are part of the pipeline — not afterthoughts.</p>
-          </div>
-
-          <div class="benefit-card glass">
             <div class="benefit-icon">&#x1F3CE;&#xFE0F;</div>
             <h3>Fast by default</h3>
-            <p>Build steps run in parallel where possible. No configuration needed — ContainifyCI figures out what can run concurrently.</p>
-          </div>
-
-          <div class="benefit-card glass">
-            <div class="benefit-icon">&#x1F513;</div>
-            <h3>No vendor lock-in</h3>
-            <p>Works with Docker and Podman. Runs in GitHub Actions, GitLab CI, or any environment with a container runtime. Your pipeline is yours.</p>
+            <p>Build steps run in parallel where possible. No configuration needed. ContainifyCI figures out what can run concurrently.</p>
           </div>
         </div>
       </div>
@@ -346,102 +341,14 @@ go install github.com/containifyci/engine-ci@latest
 # 2. Initialize your project
 engine-ci init
 
-# 3. Build — same result everywhere
+# 3. Build same result everywhere
 engine-ci run</code></pre>
           </div>
         </div>
 
         <p class="get-started-note">
-          <code>engine-ci init</code> creates a <code>.containifyci/containifyci.go</code> file — your entire build pipeline in a single Go file that you can read, test, and version-control like any other code.
+          <code>engine-ci init</code> creates a <code>.containifyci/containifyci.go</code> file your entire build pipeline in a single Go file that you can read, test, and version-control like any other code.
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== 8. Real-World Example ========== -->
-  <section class="section example" id="real-world">
-    <div class="container">
-      <div class="fade-in">
-        <span class="section-label">Real-World Example</span>
-        <h2 class="section-title">See it in action</h2>
-        <p class="section-subtitle">Here's how <a href="https://github.com/containifyci/dunebot" target="_blank" rel="noopener">dunebot</a> — a real ContainifyCI project — defines its entire build and CI pipeline.</p>
-
-        <div class="demo-gif glass" style="margin-bottom: 3rem;">
-          <div class="demo-gif-header">
-            <span class="demo-gif-label">engine-ci building itself</span>
-          </div>
-          <img src="images/local-build.gif" alt="Animated demo showing engine-ci building the engine-ci project locally" loading="lazy" style="width: 100%; border-radius: 0 0 0.75rem 0.75rem; display: block;">
-        </div>
-
-        <div class="example-blocks">
-          <!-- Go build definition -->
-          <div class="example-block glass">
-            <div class="example-block-header">
-              <span class="example-block-label">1. Define your build</span>
-              <span class="example-block-file">.containifyci/containifyci.go</span>
-            </div>
-            <pre><code class="language-go">package main
-
-import (
-    "os"
-
-    "github.com/containifyci/engine-ci/client/pkg/build"
-    "github.com/containifyci/engine-ci/protos2"
-)
-
-func main() {
-    os.Chdir("../")
-    opts := build.NewGoServiceBuild("dunebot")
-    opts.Application = "dunebot"
-    opts.File = "main.go"
-    opts.Properties = map[string]*build.ListValue{
-        "goreleaser": build.NewList("true"),
-    }
-    build.Serve(opts)
-}</code></pre>
-          </div>
-
-          <!-- PR workflow -->
-          <div class="example-block glass">
-            <div class="example-block-header">
-              <span class="example-block-label">2. Wire it into GitHub Actions</span>
-              <span class="example-block-file">.github/workflows/pull-request.yaml</span>
-            </div>
-            <pre><code class="language-yaml">name: Pull Request
-on:
-  pull_request:
-    branches: [main]
-
-jobs:
-  build:
-    name: Build
-    uses: containifyci/.github/.github/workflows/pull-request.yml@v1
-    secrets: inherit</code></pre>
-          </div>
-
-          <!-- Release workflow -->
-          <div class="example-block glass">
-            <div class="example-block-header">
-              <span class="example-block-label">3. Add a release workflow</span>
-              <span class="example-block-file">.github/workflows/release.yaml</span>
-            </div>
-            <pre><code class="language-yaml">name: Release
-on:
-  push:
-    branches: [main]
-    paths-ignore: ['.github/**']
-
-jobs:
-  build-and-release:
-    uses: containifyci/.github/.github/workflows/release.yml@v1
-    secrets: inherit</code></pre>
-          </div>
-        </div>
-
-        <div class="example-callout glass">
-          <p><strong>One Go file</strong> for your build logic. <strong>Two tiny YAML files</strong> to connect it to GitHub Actions. The same <code>engine-ci run</code> command works locally and in CI — no divergence, no surprises.</p>
-          <p style="margin-top: 0.75rem;">See the full working example at <a href="https://github.com/containifyci/dunebot/tree/main/.github/workflows" target="_blank" rel="noopener">containifyci/dunebot</a>.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -460,7 +367,7 @@ jobs:
           <div class="ecosystem-grid">
             <div class="eco-card glass">
               <h4><a href="https://github.com/containifyci/engine-ci" target="_blank" rel="noopener">engine-ci</a></h4>
-              <p>The core — containerized CI/CD pipelines defined in Go</p>
+              <p>The core containerized CI/CD pipelines defined in Go</p>
             </div>
             <div class="eco-card glass">
               <h4><a href="https://github.com/containifyci/engine-java" target="_blank" rel="noopener">engine-java</a></h4>
@@ -510,254 +417,18 @@ jobs:
     </div>
   </section>
 
-  <!-- ========== 10. Under the Hood ========== -->
+  <!-- ========== 10. Technical Deep Dive CTA ========== -->
   <section class="section hood" id="under-the-hood">
     <div class="container">
       <div class="fade-in">
-        <span class="section-label">Technical Deep Dive</span>
+        <span class="section-label">Go Deeper</span>
         <h2 class="section-title">Under the Hood</h2>
+        <p class="section-subtitle">Curious about the architecture, build pipeline, container management, and security model? We have a dedicated page for that.</p>
 
-        <h3 style="font-size:1.25rem; margin-top:2rem; margin-bottom:1rem;">Why Go instead of YAML?</h3>
-
-        <div class="hood-comparison">
-          <table class="hood-table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>YAML Pipelines</th>
-                <th>Go Pipelines (ContainifyCI)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Error detection</td>
-                <td class="yaml-col">Runtime — fails mid-build</td>
-                <td class="go-col">Compile time — fails before build starts</td>
-              </tr>
-              <tr>
-                <td>Testing</td>
-                <td class="yaml-col">Manual / none</td>
-                <td class="go-col">Unit tests with <code>go test</code></td>
-              </tr>
-              <tr>
-                <td>IDE support</td>
-                <td class="yaml-col">Syntax highlighting only</td>
-                <td class="go-col">Full autocomplete, refactoring, go-to-definition</td>
-              </tr>
-              <tr>
-                <td>Reuse</td>
-                <td class="yaml-col">Copy-paste snippets</td>
-                <td class="go-col">Import packages, call functions</td>
-              </tr>
-              <tr>
-                <td>Debugging</td>
-                <td class="yaml-col">Push and pray</td>
-                <td class="go-col">Run locally, set breakpoints</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Architecture -->
-        <div class="hood-arch">
-          <h3>Architecture</h3>
-          <div class="arch-flow">
-            <div class="arch-step glass">Your code <code>(.containifyci/containifyci.go)</code></div>
-            <div class="arch-arrow">&#x2193;</div>
-            <div class="arch-step glass">engine-ci CLI &#x2192; Compiles to single binary</div>
-            <div class="arch-arrow">&#x2193;</div>
-            <div class="arch-step glass">Container runtime (Docker / Podman)</div>
-            <div class="arch-arrow">&#x2193;</div>
-            <div class="arch-step glass">Isolated build steps with pinned tool versions</div>
-          </div>
-
-          <p class="hood-arch-desc">
-            <strong>engine-ci</strong> reads your build definition from <code>.containifyci/containifyci.go</code>, compiles it into a self-contained binary, and orchestrates containers to execute each build step in isolation. Tool versions are pinned inside the containers — not on the host machine.
-          </p>
-          <p class="hood-arch-desc" style="margin-top:0.75rem;">
-            Language support is modular. <a href="https://github.com/containifyci/engine-java" target="_blank" rel="noopener">engine-java</a> and <a href="https://github.com/containifyci/engine-python" target="_blank" rel="noopener">engine-python</a> are extensions that plug into the core. Adding support for a new language means writing a Go package that implements the build interface.
-          </p>
-        </div>
-
-        <!-- Build Pipeline Phases -->
-        <div class="hood-arch" style="margin-top:3rem;">
-          <h3>Build Pipeline</h3>
-          <p class="hood-arch-desc" style="margin-top:0; margin-bottom:1.5rem;">Every build runs through 7 orchestrated phases. Quality and Publish run concurrently for faster feedback.</p>
-          <div class="pipeline-flow">
-            <div class="pipeline-phase glass">
-              <span class="pipeline-label">Auth</span>
-            </div>
-            <div class="pipeline-arrow">&#x2192;</div>
-            <div class="pipeline-phase glass">
-              <span class="pipeline-label">PreBuild</span>
-            </div>
-            <div class="pipeline-arrow">&#x2192;</div>
-            <div class="pipeline-phase glass">
-              <span class="pipeline-label">Build</span>
-            </div>
-            <div class="pipeline-arrow">&#x2192;</div>
-            <div class="pipeline-phase glass">
-              <span class="pipeline-label">PostBuild</span>
-            </div>
-            <div class="pipeline-arrow">&#x2192;</div>
-            <div class="pipeline-phase glass pipeline-async">
-              <span class="pipeline-label">Quality</span>
-              <span class="pipeline-badge">async</span>
-            </div>
-            <div class="pipeline-arrow">&#x2192;</div>
-            <div class="pipeline-phase glass">
-              <span class="pipeline-label">Apply</span>
-            </div>
-            <div class="pipeline-arrow">&#x2192;</div>
-            <div class="pipeline-phase glass pipeline-async">
-              <span class="pipeline-label">Publish</span>
-              <span class="pipeline-badge">async</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Container Runtimes -->
-        <div class="hood-arch" style="margin-top:3rem;">
-          <h3>Container Runtimes</h3>
-          <div class="runtime-grid">
-            <div class="lang-card glass">
-              <div class="lang-icon">&#x1F433;</div>
-              <h3>Docker</h3>
-              <ul>
-                <li>Multi-arch builds via buildx</li>
-                <li>Platform-specific image pulling</li>
-                <li>Registry authentication</li>
-              </ul>
-            </div>
-            <div class="lang-card glass">
-              <div class="lang-icon">&#x1F9AD;</div>
-              <h3>Podman</h3>
-              <ul>
-                <li>Rootless containers</li>
-                <li>Native secrets support</li>
-                <li>Buildah integration</li>
-                <li>Manifest-based multi-arch</li>
-              </ul>
-            </div>
-          </div>
-          <p class="hood-arch-desc" style="margin-top:1rem;">Auto-detection picks the available runtime, or override with the <code>CONTAINER_RUNTIME</code> env var.</p>
-        </div>
-
-        <!-- Container Images -->
-        <div class="hood-arch" style="margin-top:3rem;">
-          <h3>Container Images</h3>
-          <p class="hood-arch-desc" style="margin-top:0; margin-bottom:1.5rem;">
-            engine-ci builds and publishes its own container images to <a href="https://hub.docker.com/u/containifyci" target="_blank" rel="noopener">Docker Hub</a>. Each build step runs inside a purpose-built image with pinned tool versions. The images themselves are built by engine-ci — full dogfooding.
-          </p>
-
-          <div class="image-mgmt-grid">
-            <div class="secret-card glass">
-              <h4>&#x1F4E6; Checksum-Based Tags</h4>
-              <p>Each Dockerfile is hashed at compile time. The SHA256 checksum becomes the image tag, so a rebuilt image is only pushed when the Dockerfile actually changes.</p>
-            </div>
-            <div class="secret-card glass">
-              <h4>&#x2699;&#xFE0F; Compile-Time Metadata</h4>
-              <p>Go's <code>go:generate</code> extracts Dockerfile content, base image versions, and checksums into generated Go code — no runtime parsing, errors caught before the build starts.</p>
-            </div>
-            <div class="secret-card glass">
-              <h4>&#x1F3D7;&#xFE0F; Multi-Arch Builds</h4>
-              <p>All images are built for both <code>linux/amd64</code> and <code>linux/arm64</code>, so the same pipeline works on Intel and Apple Silicon machines.</p>
-            </div>
-            <div class="secret-card glass">
-              <h4>&#x1F504; Layered Image Strategy</h4>
-              <p>Intermediate build images contain compilers and tooling. Production images are minimal (Alpine-based) — only the compiled binary and a non-root user.</p>
-            </div>
-          </div>
-
-          <div class="hood-comparison" style="margin-top:2rem;">
-            <table class="hood-table">
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Purpose</th>
-                  <th>Base</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>containifyci/golang-*</code></td>
-                  <td>Go build with linting (Alpine, Debian, CGO variants)</td>
-                  <td>golang:1.25-alpine / golang:1.25</td>
-                </tr>
-                <tr>
-                  <td><code>containifyci/maven-*</code></td>
-                  <td>Java &amp; Maven builds with TestContainers</td>
-                  <td>eclipse-temurin JDK</td>
-                </tr>
-                <tr>
-                  <td><code>containifyci/python-*</code></td>
-                  <td>Python build, lint, and packaging</td>
-                  <td>python:3.14-slim-bookworm</td>
-                </tr>
-                <tr>
-                  <td><code>containifyci/sonar</code></td>
-                  <td>SonarCloud scanner (multi-arch)</td>
-                  <td>alpine:3.20</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p class="hood-arch-desc" style="margin-top:1rem;">
-            All images are hosted at <a href="https://hub.docker.com/u/containifyci" target="_blank" rel="noopener">hub.docker.com/u/containifyci</a>. engine-ci pulls or builds them automatically — no manual image management needed.
-          </p>
-        </div>
-
-        <!-- Secure Secrets -->
-        <div class="hood-arch" style="margin-top:3rem;">
-          <h3>Secure Secrets</h3>
-          <p class="hood-arch-desc" style="margin-top:0; margin-bottom:1.5rem;">Secrets never touch disk. An in-memory key-value store with a REST API keeps credentials safe throughout the build lifecycle.</p>
-          <div class="secrets-features">
-            <div class="secret-card glass">
-              <h4>&#x1F5C4;&#xFE0F; In-Memory KV Store</h4>
-              <p>HTTP REST API — secrets live only in memory, never written to disk</p>
-            </div>
-            <div class="secret-card glass">
-              <h4>&#x1F510; HMAC-SHA256 Auth</h4>
-              <p>Request signing with timestamps and nonces prevents replay attacks</p>
-            </div>
-            <div class="secret-card glass">
-              <h4>&#x1F517; Value Resolution</h4>
-              <p><code>mem:</code> KV store / <code>cmd:</code> shell command / <code>env:</code> environment variable</p>
-            </div>
-            <div class="secret-card glass">
-              <h4>&#x23F1;&#xFE0F; Session Tokens</h4>
-              <p>Per-session tokens with 1-hour expiry and constant-time comparison</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SSH Agent Forwarding -->
-        <div class="hood-arch" style="margin-top:3rem;">
-          <h3>SSH Agent Forwarding</h3>
-          <div class="example-callout glass">
-            <p>Unix socket bind mounts forward your host SSH agent into build containers — enabling private repository access during builds. Platform-aware for both <strong>Linux</strong> and <strong>macOS</strong>, and available across all build types.</p>
-          </div>
-        </div>
-
-        <!-- Integrations -->
-        <div class="integration-pills">
-          <h3>Key Integrations</h3>
-          <div class="pills">
-            <span class="pill">&#x1F433; Docker</span>
-            <span class="pill">&#x1F9AD; Podman</span>
-            <span class="pill">&#x1F50D; Trivy</span>
-            <span class="pill">&#x1F4E6; GoReleaser</span>
-            <span class="pill">&#x1F511; Feller</span>
-            <span class="pill">&#x1F916; Dunebot</span>
-            <span class="pill">&#x2699;&#xFE0F; GitHub Actions</span>
-            <span class="pill">&#x1F98A; GitLab CI</span>
-            <span class="pill">&#x1F510; SSH Forwarding</span>
-            <span class="pill">&#x1F3D7;&#xFE0F; Multi-Arch Builds</span>
-            <span class="pill">&#x1F50E; SonarCloud</span>
-            <span class="pill">&#x1F4DC; Protobuf</span>
-            <span class="pill">&#x2601;&#xFE0F; Pulumi</span>
-          </div>
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="technical.html" class="btn btn-primary">
+            Technical Deep Dive
+          </a>
         </div>
       </div>
     </div>
