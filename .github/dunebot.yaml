@@ -8,8 +8,10 @@ approve:
         prefix: "dependabot/github_actions"
       dependabot_npm_and_yarn:
         prefix: "dependabot/npm_and_yarn"
-      dependabot_terraform:
+      dependabot_golang:
         prefix: "dependabot/go_modules"
+      dependabot_docker:
+        prefix: "dependabot/docker"
 
 merge:
   include:
@@ -19,7 +21,10 @@ merge:
       dependabot_npm_and_yarn:
         age: 1 days
         prefix: "dependabot/npm_and_yarn"
-      dependabot_terraform:
+      dependabot_golang:
         age: 1 days
         prefix: "dependabot/go_modules"
+      dependabot_docker:
+        age: 1 days
+        prefix: "dependabot/docker"
   method: squash
