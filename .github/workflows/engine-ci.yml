@@ -81,7 +81,7 @@ jobs:
 
       - name: Setup SSH agent for retrieving (private) Github dependencies
         if: ${{ env.CONTAINIFYCI_CI_SSH_PRIVATE_KEY != '' }}
-        uses: webfactory/ssh-agent@v0.9.1
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.CONTAINIFYCI_CI_SSH_PRIVATE_KEY }}
         env:
