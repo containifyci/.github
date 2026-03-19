@@ -76,4 +76,15 @@
 
   window.addEventListener('scroll', highlightNav, { passive: true });
   highlightNav();
+
+  // 5. Click-to-copy email
+  const copyEmail = document.getElementById('copy-email');
+  if (copyEmail) {
+    copyEmail.addEventListener('click', function () {
+      navigator.clipboard.writeText(copyEmail.textContent).then(function () {
+        copyEmail.classList.add('copied');
+        setTimeout(function () { copyEmail.classList.remove('copied'); }, 1500);
+      });
+    });
+  }
 })();

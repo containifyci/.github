@@ -410,38 +410,24 @@ code, pre {
   font-size: 0.9375rem;
 }
 
-/* =========================
-   4. Comparison
-   ========================= */
-.comparison-grid {
-  display: grid;
-  gap: 1.5rem;
+.problem-benefits {
   margin-top: 2.5rem;
+  max-width: 720px;
 }
 
-.comparison-card {
-  padding: 2rem;
-  border-radius: var(--radius);
-}
-
-.comparison-card h3 {
+.problem-benefits h3 {
   font-size: 1.125rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  color: var(--accent-green);
+  margin-bottom: 1rem;
 }
 
-.comparison-card.old h3 { color: var(--error); }
-.comparison-card.new h3 { color: var(--accent-green); }
-
-.comparison-card ul {
+.problem-benefits ul {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 0.75rem;
 }
 
-.comparison-card li {
+.problem-benefits li {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
@@ -450,14 +436,15 @@ code, pre {
   line-height: 1.5;
 }
 
-.comparison-card li .icon {
-  flex-shrink: 0;
-  margin-top: 2px;
-  font-size: 1rem;
+.problem-benefits li strong {
+  color: var(--text-primary);
 }
 
-.comparison-card.old li .icon { color: var(--error); }
-.comparison-card.new li .icon { color: var(--accent-green); }
+.problem-benefits li .icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--accent-green);
+}
 
 /* =========================
    5. How It Works
@@ -512,37 +499,15 @@ code, pre {
   font-size: 1.5rem;
 }
 
-/* =========================
-   6. Benefits
-   ========================= */
-.benefits {
-  background: var(--bg-secondary);
-}
-
-.benefits-grid {
-  display: grid;
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-}
-
-.benefit-card {
-  padding: 1.75rem;
-}
-
-.benefit-icon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.benefit-card h3 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.benefit-card p {
+.steps-note {
+  margin-top: 2rem;
+  text-align: center;
   color: var(--text-secondary);
-  font-size: 0.875rem;
-  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+
+.steps-note a {
+  color: var(--accent-cyan);
 }
 
 /* =========================
@@ -712,58 +677,6 @@ code, pre {
 
 .example-callout a {
   color: var(--accent-cyan);
-}
-
-/* =========================
-   9. Ecosystem
-   ========================= */
-.ecosystem-category {
-  margin-top: 2.5rem;
-}
-
-.ecosystem-category + .ecosystem-category {
-  margin-top: 2rem;
-}
-
-.ecosystem-category-title {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.ecosystem-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.eco-card {
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  transition: border-color .2s;
-}
-.eco-card:hover {
-  border-color: rgba(6, 182, 212, 0.3);
-}
-
-.eco-card h4 {
-  font-size: 0.9375rem;
-}
-
-.eco-card h4 a {
-  color: var(--text-primary);
-}
-.eco-card h4 a:hover {
-  color: var(--accent-cyan);
-}
-
-.eco-card p {
-  color: var(--text-secondary);
-  font-size: 0.8125rem;
 }
 
 /* =========================
@@ -1018,43 +931,107 @@ code, pre {
 }
 
 /* =========================
-   11. Contributing
+   Blog Posts
    ========================= */
-.contrib-grid {
+.blog-grid {
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-top: 2.5rem;
 }
 
-.contrib-card {
+.blog-card {
   padding: 1.75rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color .2s, transform .15s;
+  text-decoration: none;
+  color: inherit;
 }
 
-.contrib-card .contrib-icon {
-  font-size: 2rem;
-  margin-bottom: 0.75rem;
+.blog-card:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  transform: translateY(-2px);
+  color: inherit;
 }
 
-.contrib-card h3 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
+.blog-part {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent-cyan);
 }
 
-.contrib-card p {
+.blog-card h3 {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+}
+
+.blog-card p {
   color: var(--text-secondary);
   font-size: 0.875rem;
+  line-height: 1.6;
+  flex-grow: 1;
 }
 
-.contrib-footer {
+.blog-link {
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  color: var(--accent-cyan);
+  transition: gap .2s;
+}
+
+.blog-deep-dive {
   text-align: center;
   margin-top: 2.5rem;
 }
 
-.contrib-footer p {
+.blog-deep-dive p {
   color: var(--text-secondary);
-  font-size: 0.9375rem;
-  font-style: italic;
+  font-size: 1rem;
+}
+
+/* =========================
+   Contact
+   ========================= */
+.contact-methods {
+  margin-top: 2rem;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.contact-methods a {
+  color: var(--accent-cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.copy-email {
+  color: var(--accent-cyan);
+  cursor: pointer;
+  position: relative;
+  border-bottom: 1px dashed var(--accent-cyan);
+  transition: opacity 0.2s;
+}
+
+.copy-email:hover {
+  opacity: 0.8;
+}
+
+.copy-email.copied::after {
+  content: 'Copied!';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-cyan);
+  color: var(--bg-primary);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 /* =========================
@@ -1107,26 +1084,16 @@ code, pre {
   font-size: 0.8125rem;
 }
 
+.footer-opensource {
+  margin-top: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+}
+
 /* =========================
    Responsive — SM (640px)
    ========================= */
 @media (min-width: 640px) {
-  .comparison-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .contrib-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .benefits-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .ecosystem-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -1134,6 +1101,11 @@ code, pre {
   .languages-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .blog-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
 
   .runtime-grid {
     grid-template-columns: 1fr 1fr;
@@ -1185,20 +1157,12 @@ code, pre {
     font-size: clamp(2.75rem, 5vw, 4.5rem);
   }
 
-  .benefits-grid {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .ecosystem-grid {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .contrib-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
   .languages-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .blog-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .secrets-features {
