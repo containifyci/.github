@@ -171,6 +171,32 @@ code, pre {
   color: var(--accent-cyan);
 }
 
+/* GitHub stars badge in hero */
+.badge-github-stars {
+  padding: 0.2rem 0.4rem;
+  background: transparent;
+  border-color: rgba(6, 182, 212, 0.2);
+}
+.badge-github-stars img {
+  display: block;
+  border-radius: 4px;
+}
+
+/* Star button amber hover */
+.btn-star:hover {
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+/* Star callout after Quick Start */
+.star-callout {
+  margin-top: 2rem;
+  text-align: center;
+}
+.star-callout a {
+  font-weight: 600;
+}
+
 /* --- Fade-in animation --- */
 .fade-in {
   opacity: 0;
