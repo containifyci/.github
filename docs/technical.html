@@ -34,17 +34,17 @@
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/prism-custom.css">
+
+    <!-- Consent Mode v2 (must load before gtag.js) -->
+    <script src="js/consent.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17943304449"></script>
+    <script>
+        gtag('js', new Date());
+        gtag('config', 'AW-17943304449');
+    </script>
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17943304449"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'AW-17943304449');
-</script>
-
 <body>
 
     <!-- ========== Fixed Nav ========== -->
@@ -534,6 +534,20 @@ jobs:
             </div>
         </div>
     </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="consent-banner" class="consent-banner" role="dialog" aria-label="Cookie consent" hidden>
+        <div class="consent-banner-inner container">
+            <p class="consent-banner-text">
+                We use cookies and Google Ads tracking to measure campaign performance.
+                No data is collected without your permission.
+            </p>
+            <div class="consent-banner-actions">
+                <button id="consent-reject" class="btn btn-secondary" type="button">Reject</button>
+                <button id="consent-accept" class="btn btn-primary" type="button">Accept</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Main JS -->
     <script src="js/main.js"></script>
