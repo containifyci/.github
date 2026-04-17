@@ -1,7 +1,6 @@
 version: 1.0.0
 
 approve:
-  approver: fr12k
   include:
     branches:
       dependabot/github_actions:
