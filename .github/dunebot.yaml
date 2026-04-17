@@ -21,7 +21,7 @@ merge:
         age: 1 days
         prefix: "dependabot/npm_and_yarn"
       dependabot_golang:
-        age: 1 days
+        age: 30 minutes
         prefix: "dependabot/go_modules"
       dependabot_docker:
         age: 1 days
