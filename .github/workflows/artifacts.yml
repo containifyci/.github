@@ -81,10 +81,9 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-          save-always: true
 
       - name: Install Engine CI
-        uses: jaxxstorm/action-install-gh-release@v1
+        uses: jaxxstorm/action-install-gh-release@v3.0.0
         with:
           repo: containifyci/engine-ci
           # At the moment fetch latest release
