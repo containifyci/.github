@@ -123,7 +123,7 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Install Engine CI
-        uses: jaxxstorm/action-install-gh-release@v1
+        uses: jaxxstorm/action-install-gh-release@v3.0.0
         with:
           repo: ${{ inputs.containify_repo }}
           # At the moment fetch latest release
