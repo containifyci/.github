@@ -53,7 +53,13 @@ jobs:
   build:
     name: Build
     uses: containifyci/engine-ci/.github/workflows/engine-ci-workflow.yml@v0
-    secrets: inherit
+    secrets: 
+      CONTAINIFYCI_DOCKER_TOKEN: ${{ secrets.CONTAINIFYCI_DOCKER_TOKEN }}
+      CONTAINIFYCI_RELEASE_TOKEN: ${{ secrets.CONTAINIFYCI_RELEASE_TOKEN }}
+      CONTAINIFYCI_CI_SSH_PRIVATE_KEY: ${{ secrets.CONTAINIFYCI_CI_SSH_PRIVATE_KEY }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+      CI_CLAUDE_KEY: ${{ secrets.CI_CLAUDE_KEY }}
     with:
       dockerhub_user: ${{ inputs.dockerhub_user }}
       install_binary: ${{ inputs.install_binary }}
