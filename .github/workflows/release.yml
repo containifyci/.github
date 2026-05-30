@@ -37,6 +37,9 @@ on:
       RELEASE_GITHUB_TOKEN:
         description: "The github token to use for release"
         required: false
+      CONTAINIFYCI_DOCKER_TOKEN:
+        description: "The docker hub token to login and push images"
+        required: false
 
 concurrency:
   group: ${{ inputs.concurrency_group }}
