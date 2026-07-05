@@ -11,13 +11,13 @@
     "semver": "^7.8.5"
   },
   "devDependencies": {
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.1.0",
     "@types/js-yaml": "^4.0.9",
     "@types/semver": "^7.7.1",
-    "@vercel/ncc": "^0.44.0",
+    "@vercel/ncc": "^0.44.1",
     "husky": "^9.1.7",
-    "nock": "^14.0.15",
-    "prettier": "^3.8.4",
+    "nock": "^14.0.16",
+    "prettier": "^3.9.4",
     "pretty-quick": "^4.2.2",
     "typescript": "^6.0.3"
   },
