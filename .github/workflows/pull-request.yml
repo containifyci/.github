@@ -43,5 +43,6 @@ jobs:
     uses: containifyci/engine-ci/.github/workflows/engine-ci-workflow.yml@v0
     secrets: inherit
     with:
+      checkout_repository: ${{ github.event.pull_request.head.repo.full_name }}
       install_binary: ${{ inputs.install_binary }}
       dockerhub_user: ${{ inputs.dockerhub_user }}
