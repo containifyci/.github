@@ -19,7 +19,7 @@
     "nock": "^14.0.16",
     "prettier": "^3.9.4",
     "pretty-quick": "^4.2.2",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "husky": {
     "hooks": {
