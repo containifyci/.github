@@ -59,7 +59,6 @@ jobs:
       CONTAINIFYCI_CI_SSH_PRIVATE_KEY: ${{ secrets.CONTAINIFYCI_CI_SSH_PRIVATE_KEY }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-      CI_CLAUDE_KEY: ${{ secrets.CI_CLAUDE_KEY }}
     with:
       dockerhub_user: ${{ inputs.dockerhub_user }}
       install_binary: ${{ inputs.install_binary }}
